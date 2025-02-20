@@ -72,6 +72,7 @@ if st.session_state.groups:
         else:
             st.warning("Keine Fragen mehr in dieser Kategorie.")
 
+    # Frage anzeigen, wenn die aktuelle Gruppe ihre Punkte und Würfelzahl ausgewählt hat
     if st.session_state.current_question:
         st.write(f"**Frage:** {st.session_state.current_question[0]}")
         if st.button("Antwort anzeigen"):
@@ -86,6 +87,8 @@ if st.session_state.groups:
             st.session_state.current_group_index = (st.session_state.current_group_index + 1) % len(st.session_state.groups)
             if st.session_state.current_group_index == 0:
                 st.session_state.current_category_index = (st.session_state.current_category_index + 1) % len(st.session_state.categories)
+            
+            # Zurücksetzen der Würfel- und Punkteauswahl
             st.session_state.selected_dice = None
             st.session_state.selected_points = None
         
@@ -101,6 +104,10 @@ if st.session_state.groups:
                     st.session_state.groups[[g["name"] for g in st.session_state.groups].index(st.session_state.selected_attempt_group)]["points"] += 2
                 if cols[1].button("Nein"):
                     st.session_state.groups[[g["name"] for g in st.session_state.groups].index(st.session_state.selected_attempt_group)]["points"] -= 2
+
+            # Zurücksetzen der Würfel- und Punkteauswahl
+            st.session_state.selected_dice = None
+            st.session_state.selected_points = None
 
     st.write("**Punkteübersicht:**")
     for group in st.session_state.groups:
