@@ -14,7 +14,6 @@ def load_questions(filename):
                 current_category = line.split(":")[1].strip()
                 categories.append(current_category)
             elif line.startswith("Wie") or line.startswith("Was") or line.startswith("Welcher") or line.startswith("Wofür"):
-                # Hier wird die Frage und die Antwort getrennt
                 question = line
             elif line.startswith("Antwort:") and current_category:
                 answer = line.split("Antwort:")[1].strip()
@@ -36,12 +35,14 @@ class QuizGame:
         self.scores = {}
         self.questions, self.categories = load_questions("Alle_150_Quizfragen.txt")
         self.used_questions = []
+        self.attempted_by_other_groups = False
 
     def start_game(self, num_groups):
         self.groups = [f"Gruppe {i + 1}" for i in range(num_groups)]
         self.scores = {group: 0 for group in self.groups}
         self.current_group_index = 0
         self.current_category = self.categories[0]
+        self.attempted_by_other_groups = False
 
     def pick_question(self):
         available_questions = [q for q in self.questions if q not in self.used_questions and q['category'] == self.current_category]
@@ -57,6 +58,7 @@ class QuizGame:
             # Wechsel zur nächsten Kategorie
             current_category_index = self.categories.index(self.current_category)
             self.current_category = self.categories[(current_category_index + 1) % len(self.categories)]
+        self.attempted_by_other_groups = False
 
 # Streamlit UI
 st.title("Quiz Spiel")
@@ -95,18 +97,38 @@ if 'quiz_game' in st.session_state:
         if question:
             st.session_state['current_question'] = question
             st.write(f"Frage: {question['question']}")
+            st.session_state['show_answer'] = False  # Antwort zunächst nicht anzeigen
         else:
             st.write("Keine Fragen mehr verfügbar.")
 
     # Antwortmöglichkeiten
     if st.session_state['current_question']:
-        answer = st.text_input("Antwort eingeben:")
-        if st.button("Antwort überprüfen"):
-            if answer.lower() == st.session_state['current_question']['answer'].lower():
-                st.write("Richtig!")
+        # Buttons für Richtig und Falsch
+        if not quiz_game.attempted_by_other_groups:
+            if st.button("Richtig"):
+                st.session_state['show_answer'] = True
+                st.write("Richtige Antwort!")
                 quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] += st.session_state['selected_points']
-            else:
-                st.write("Falsch!")
+                quiz_game.next_turn()
+                st.session_state['current_question'] = None
+            if st.button("Falsch"):
+                st.session_state['show_answer'] = True
+                st.write("Falsche Antwort!")
+                quiz_game.attempted_by_other_groups = True  # Andere Gruppen dürfen jetzt antworten
+
+        # Anzeige der Antwort
+        if st.session_state.get('show_answer', False):
+            st.write(f"Antwort: {st.session_state['current_question']['answer']}")
+            # Möglichkeit für andere Gruppen, zu antworten
+            for i, group in enumerate(quiz_game.groups):
+                if i != quiz_game.current_group_index:
+                    if st.button(f"{group} antworten"):
+                        if st.button("Richtig"):
+                            st.write(f"{group} hat richtig geantwortet!")
+                            quiz_game.scores[group] += 2
+                        elif st.button("Falsch"):
+                            st.write(f"{group} hat falsch geantwortet!")
+                            quiz_game.scores[group] -= 2
             quiz_game.next_turn()
             st.session_state['current_question'] = None
 
