@@ -74,6 +74,10 @@ if st.session_state.groups:
             st.session_state.used_questions.append(st.session_state.current_question)
         else:
             st.warning("Keine Fragen mehr in dieser Kategorie für diese Gruppe.")
+            # Nächste Gruppe ist an der Reihe, wenn keine Fragen mehr verfügbar sind
+            st.session_state.current_group_index = (st.session_state.current_group_index + 1) % len(st.session_state.groups)
+            if st.session_state.current_group_index == 0:
+                st.session_state.current_category_index = (st.session_state.current_category_index + 1) % len(st.session_state.categories)
 
     # Frage anzeigen, wenn die aktuelle Gruppe ihre Punkte und Würfelzahl ausgewählt hat
     if st.session_state.current_question:
