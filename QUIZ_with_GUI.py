@@ -14,12 +14,18 @@ def load_questions(filename):
                 current_category = line.split(":")[1].strip()
                 categories.append(current_category)
             elif line and current_category:
-                question, answer = line.split("Antwort: ")
-                questions.append({
-                    "question": question.strip(),
-                    "answer": answer.strip(),
-                    "category": current_category
-                })
+                # Hier wird die Frage und die Antwort getrennt
+                if "Antwort:" in line:
+                    question, answer = line.split("Antwort: ", 1)  # 1 bedeutet, dass nur beim ersten Vorkommen gesplittet wird
+                    questions.append({
+                        "question": question.strip(),
+                        "answer": answer.strip(),
+                        "category": current_category
+                    })
+                else:
+                    # Wenn kein "Antwort:" vorhanden ist, könnte es ein Fehler in der Datei sein
+                    st.warning(f"Die Zeile ist nicht im erwarteten Format: {line}")
+
     return questions, categories
 
 # QuizGame Klasse
