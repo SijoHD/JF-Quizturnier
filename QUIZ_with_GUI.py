@@ -54,14 +54,15 @@ if st.session_state.groups:
     for i in range(1, 7):
         if cols[i - 1].button(str(i)):
             st.session_state.selected_dice = i
-
+            
     st.write("**Punkte setzen:**")
     cols = st.columns(6)
     for i in range(1, 7):
         if cols[i - 1].button(f"{i} Punkte"):
             st.session_state.selected_points = i
-
-    if st.button("Frage ziehen") and st.session_state.selected_dice and st.session_state.selected_points:
+            
+    # Automatische Frageziehung, wenn beide Werte gesetzt sind
+    if st.session_state.selected_dice and st.session_state.selected_points:
         filtered_questions = [q for q in st.session_state.questions if q[2] == st.session_state.categories[st.session_state.current_category_index]]
         available_questions = [q for q in filtered_questions if q not in st.session_state.used_questions]
         
@@ -105,4 +106,3 @@ if st.session_state.groups:
     st.write("**Punkteübersicht:**")
     for group in st.session_state.groups:
         st.write(f"{group['name']}: {group['points']} Punkte")
-
