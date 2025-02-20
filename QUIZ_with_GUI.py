@@ -34,6 +34,7 @@ if "questions" not in st.session_state:
     st.session_state.selected_points = None
     st.session_state.current_question = None
     st.session_state.selected_attempt_group = None
+    st.session_state.answered_questions = {group['name']: [] for group in st.session_state.groups}
 
 st.title("Quizspiel")
 
@@ -41,6 +42,7 @@ st.title("Quizspiel")
 num_groups = st.number_input("Anzahl der Gruppen eingeben:", min_value=1, max_value=6, step=1)
 if st.button("Start"):
     st.session_state.groups = [{"name": f"Gruppe {i+1}", "points": 0} for i in range(num_groups)]
+    st.session_state.answered_questions = {group['name']: [] for group in st.session_state.groups}
     st.session_state.current_group_index = 0
     st.session_state.current_category_index = 0
 
@@ -64,13 +66,13 @@ if st.session_state.groups:
     # Automatische Frageziehung, wenn beide Werte gesetzt sind
     if st.session_state.selected_dice and st.session_state.selected_points:
         filtered_questions = [q for q in st.session_state.questions if q[2] == st.session_state.categories[st.session_state.current_category_index]]
-        available_questions = [q for q in filtered_questions if q not in st.session_state.used_questions]
+        available_questions = [q for q in filtered_questions if q not in st.session_state.used_questions and q not in st.session_state.answered_questions[st.session_state.groups[st.session_state.current_group_index]['name']]]
         
         if available_questions:
             st.session_state.current_question = random.choice(available_questions)
             st.session_state.used_questions.append(st.session_state.current_question)
         else:
-            st.warning("Keine Fragen mehr in dieser Kategorie.")
+            st.warning("Keine Fragen mehr in dieser Kategorie für diese Gruppe.")
 
     # Frage anzeigen, wenn die aktuelle Gruppe ihre Punkte und Würfelzahl ausgewählt hat
     if st.session_state.current_question:
@@ -81,6 +83,7 @@ if st.session_state.groups:
         cols = st.columns(2)
         if cols[0].button("Richtig"):
             st.session_state.groups[st.session_state.current_group_index]["points"] += st.session_state.selected_points
+            st.session_state.answered_questions[st.session_state.groups[st.session_state.current_group_index]['name']].append(st.session_state.current_question)
             st.session_state.current_question = None
             
             # Nächste Gruppe ist an der Reihe
