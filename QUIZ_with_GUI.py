@@ -123,6 +123,7 @@ if 'quiz_game' in st.session_state:
             for i, group in enumerate(quiz_game.groups):
                 if i != quiz_game.current_group_index:
                     if st.button(f"{group} antworten"):
+                        # Auswahl, ob die andere Gruppe richtig oder falsch geantwortet hat
                         if st.button("Richtig"):
                             st.write(f"{group} hat richtig geantwortet!")
                             quiz_game.scores[group] += 2
