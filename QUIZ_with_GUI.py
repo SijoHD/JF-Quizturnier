@@ -99,6 +99,7 @@ if 'quiz_game' in st.session_state:
             st.write(f"Frage: {question['question']}")
             st.session_state['show_answer'] = False  # Antwort zunächst nicht anzeigen
             st.session_state['answered_correctly'] = None  # Reset der Antwortstatus
+            st.session_state['other_group_answered'] = False  # Reset für andere Gruppen
         else:
             st.write("Keine Fragen mehr verfügbar.")
 
@@ -124,16 +125,16 @@ if 'quiz_game' in st.session_state:
             st.write(f"Antwort: {st.session_state['current_question']['answer']}")
             # Möglichkeit für andere Gruppen, zu antworten
             for i, group in enumerate(quiz_game.groups):
-                if i != quiz_game.current_group_index:
+                if i != quiz_game.current_group_index and not st.session_state['other_group_answered']:
                     if st.button(f"{group} antworten"):
-                        if st.session_state['answered_correctly'] is False:
-                            # Auswahl, ob die andere Gruppe richtig oder falsch geantwortet hat
-                            if st.button("Richtig", key=f"correct_{i}"):
-                                st.write(f"{group} hat richtig geantwortet!")
-                                quiz_game.scores[group] += 2
-                            elif st.button("Falsch", key=f"wrong_{i}"):
-                                st.write(f"{group} hat falsch geantwortet!")
-                                quiz_game.scores[group] -= 2
+                        st.session_state['other_group_answered'] = True  # Markiere, dass eine andere Gruppe geantwortet hat
+                        # Auswahl, ob die andere Gruppe richtig oder falsch geantwortet hat
+                        if st.button("Richtig", key=f"correct_{i}"):
+                            st.write(f"{group} hat richtig geantwortet!")
+                            quiz_game.scores[group] += 2
+                        elif st.button("Falsch", key=f"wrong_{i}"):
+                            st.write(f"{group} hat falsch geantwortet!")
+                            quiz_game.scores[group] -= 2
             quiz_game.next_turn()
             st.session_state['current_question'] = None
 
