@@ -13,18 +13,16 @@ def load_questions(filename):
             if line.startswith("Kategorie:"):
                 current_category = line.split(":")[1].strip()
                 categories.append(current_category)
-            elif line and current_category:
+            elif line.startswith("Wie") or line.startswith("Was") or line.startswith("Welcher") or line.startswith("Wofür"):
                 # Hier wird die Frage und die Antwort getrennt
-                if "Antwort:" in line:
-                    question, answer = line.split("Antwort: ", 1)  # 1 bedeutet, dass nur beim ersten Vorkommen gesplittet wird
-                    questions.append({
-                        "question": question.strip(),
-                        "answer": answer.strip(),
-                        "category": current_category
-                    })
-                else:
-                    # Wenn kein "Antwort:" vorhanden ist, könnte es ein Fehler in der Datei sein
-                    st.warning(f"Die Zeile ist nicht im erwarteten Format: {line}")
+                question = line
+            elif line.startswith("Antwort:") and current_category:
+                answer = line.split("Antwort:")[1].strip()
+                questions.append({
+                    "question": question,
+                    "answer": answer,
+                    "category": current_category
+                })
 
     return questions, categories
 
