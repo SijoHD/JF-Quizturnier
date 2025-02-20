@@ -48,9 +48,18 @@ if st.session_state.groups:
     st.write(f"**Aktuelle Gruppe:** {st.session_state.groups[st.session_state.current_group_index]['name']}")
     st.write(f"**Aktuelle Kategorie:** {st.session_state.categories[st.session_state.current_category_index]}")
 
-    # Würfel- und Punkteauswahl
-    st.session_state.selected_dice = st.radio("Gewürfelte Zahl wählen:", list(range(1, 7)))
-    st.session_state.selected_points = st.radio("Punkte setzen:", list(range(1, 7)))
+    # Würfel- und Punkteauswahl per Buttons
+    st.write("**Gewürfelte Zahl wählen:**")
+    cols = st.columns(6)
+    for i in range(1, 7):
+        if cols[i - 1].button(str(i)):
+            st.session_state.selected_dice = i
+
+    st.write("**Punkte setzen:**")
+    cols = st.columns(6)
+    for i in range(1, 7):
+        if cols[i - 1].button(f"{i} Punkte"):
+            st.session_state.selected_points = i
 
     if st.button("Frage ziehen") and st.session_state.selected_dice and st.session_state.selected_points:
         filtered_questions = [q for q in st.session_state.questions if q[2] == st.session_state.categories[st.session_state.current_category_index]]
@@ -67,16 +76,22 @@ if st.session_state.groups:
         if st.button("Antwort anzeigen"):
             st.write(f"**Antwort:** {st.session_state.current_question[1]}")
 
-        if st.button("Richtig"):
+        cols = st.columns(2)
+        if cols[0].button("Richtig"):
             st.session_state.groups[st.session_state.current_group_index]["points"] += st.session_state.selected_points
             st.session_state.current_question = None
         
-        if st.button("Falsch"):
-            st.session_state.selected_attempt_group = st.radio("Welche Gruppe soll es versuchen?", [g['name'] for g in st.session_state.groups if g['name'] != st.session_state.groups[st.session_state.current_group_index]['name']])
-            if st.button("Andere Gruppe antwortet"):
-                if st.radio("Hat die Gruppe richtig geantwortet?", ["Ja", "Nein"]) == "Ja":
+        if cols[1].button("Falsch"):
+            attempt_groups = [g['name'] for g in st.session_state.groups if g['name'] != st.session_state.groups[st.session_state.current_group_index]['name']]
+            for group in attempt_groups:
+                if st.button(group):
+                    st.session_state.selected_attempt_group = group
+                    
+            if st.session_state.selected_attempt_group:
+                cols = st.columns(2)
+                if cols[0].button("Ja"):
                     st.session_state.groups[[g["name"] for g in st.session_state.groups].index(st.session_state.selected_attempt_group)]["points"] += 2
-                else:
+                if cols[1].button("Nein"):
                     st.session_state.groups[[g["name"] for g in st.session_state.groups].index(st.session_state.selected_attempt_group)]["points"] -= 2
 
     if st.button("Nächste Runde"):
@@ -90,3 +105,4 @@ if st.session_state.groups:
     st.write("**Punkteübersicht:**")
     for group in st.session_state.groups:
         st.write(f"{group['name']}: {group['points']} Punkte")
+
