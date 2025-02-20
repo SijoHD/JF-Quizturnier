@@ -81,6 +81,13 @@ if st.session_state.groups:
         if cols[0].button("Richtig"):
             st.session_state.groups[st.session_state.current_group_index]["points"] += st.session_state.selected_points
             st.session_state.current_question = None
+            
+            # Nächste Gruppe ist an der Reihe
+            st.session_state.current_group_index = (st.session_state.current_group_index + 1) % len(st.session_state.groups)
+            if st.session_state.current_group_index == 0:
+                st.session_state.current_category_index = (st.session_state.current_category_index + 1) % len(st.session_state.categories)
+            st.session_state.selected_dice = None
+            st.session_state.selected_points = None
         
         if cols[1].button("Falsch"):
             attempt_groups = [g['name'] for g in st.session_state.groups if g['name'] != st.session_state.groups[st.session_state.current_group_index]['name']]
@@ -94,14 +101,6 @@ if st.session_state.groups:
                     st.session_state.groups[[g["name"] for g in st.session_state.groups].index(st.session_state.selected_attempt_group)]["points"] += 2
                 if cols[1].button("Nein"):
                     st.session_state.groups[[g["name"] for g in st.session_state.groups].index(st.session_state.selected_attempt_group)]["points"] -= 2
-
-    if st.button("Nächste Runde"):
-        st.session_state.current_group_index = (st.session_state.current_group_index + 1) % len(st.session_state.groups)
-        if st.session_state.current_group_index == 0:
-            st.session_state.current_category_index = (st.session_state.current_category_index + 1) % len(st.session_state.categories)
-        st.session_state.selected_dice = None
-        st.session_state.selected_points = None
-        st.session_state.current_question = None
 
     st.write("**Punkteübersicht:**")
     for group in st.session_state.groups:
