@@ -76,23 +76,18 @@ class QuizGame:
 st.title("Quiz Spiel")
 
 # ---------------------------
-# Sidebar: Frage & (spätere) Antwort
+# Sidebar: Zeige sofort Frage + Antwort
 # ---------------------------
 with st.sidebar:
     st.header("Aktuelle Frage & Antwort")
     if 'current_question' in st.session_state:
         question = st.session_state['current_question']
-        # Frage sofort einblenden
+        # Frage sofort anzeigen
         st.write(f"**Frage:** {question['question']}")
-        
-        # Antwort nur anzeigen, wenn show_answer=True (also nach Richtig/Falsch)
-        if st.session_state.get('show_answer', False):
-            st.write(f"**Antwort:** {question['answer']}")
-        else:
-            st.write("Antwort wird erst nach \"Richtig\"/\"Falsch\" angezeigt.")
+        # Antwort immer anzeigen (wie gewünscht)
+        st.write(f"**Antwort:** {question['answer']}")
     else:
         st.write("Zurzeit keine aktive Frage.")
-
 
 # Spielinitialisierung
 if 'quiz_game' not in st.session_state:
