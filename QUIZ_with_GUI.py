@@ -80,7 +80,7 @@ if quiz_game.groups:
     st.write(f"Aktuelle Gruppe: {quiz_game.groups[quiz_game.current_group_index]}")
     st.write(f"Aktuelle Kategorie: {quiz_game.current_category}")
 
-    if st.button("Würfeln", disabled='current_question' in st.session_state):
+    if st.button("Würfeln", disabled='current_question' in st.session_state or 'selected_dice' in st.session_state):
         st.session_state['selected_dice'] = random.randint(1, 6)
         st.write(f"Geworfene Zahl: {st.session_state['selected_dice']}")
 
