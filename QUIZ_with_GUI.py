@@ -85,19 +85,17 @@ def answer_correct_callback():
     st.session_state.answered_correctly = True
     points = st.session_state.get('selected_points', 1)
     quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] += points
-    # Hier erfolgt noch kein Übergang zur nächsten Runde
 
 def answer_wrong_callback():
     st.session_state.show_answer = True
     st.session_state.answered_correctly = False
     points = st.session_state.get('selected_points', 1)
     quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] -= points
-    # Hier erfolgt noch kein Übergang zur nächsten Runde
 
 def next_round_callback():
+    # Wechsel zur nächsten Runde und komplett löschen:
     quiz_game.next_turn()
-    if 'current_question' in st.session_state:
-        del st.session_state['current_question']
+    st.session_state.pop('current_question', None)
     st.session_state.show_answer = False
     st.session_state.answered_correctly = None
 
@@ -108,17 +106,25 @@ def other_group_wrong_callback(group):
     quiz_game.scores[group] -= 1
 
 # ---------------------------
+# Container für Frage & Antwort
+# ---------------------------
+# Dieser Container wird jedes Mal neu befüllt, sodass alte Inhalte nicht mehr erscheinen.
+main_display = st.empty()
+sidebar_display = st.sidebar.empty()
+
+# ---------------------------
 # Streamlit App
 # ---------------------------
 st.title("Quiz Spiel")
 
-# Sidebar: Zeige Frage & Antwort
-with st.sidebar:
-    st.header("Aktuelle Frage & Antwort")
+# Sidebar: Zeige aktuelle Frage (und Antwort, falls freigegeben)
+with sidebar_display.container():
+    st.header("Aktuelle Frage")
     if 'current_question' in st.session_state:
         q = st.session_state.current_question
-        st.write(f"**Frage:** {q['question']}")
-        st.write(f"**Antwort:** {q['answer']}")
+        st.markdown(f"**Frage:** {q['question']}")
+        if st.session_state.get('show_answer', False):
+            st.markdown(q['answer'])
     else:
         st.write("Zurzeit keine aktive Frage.")
 
@@ -132,30 +138,35 @@ if 'game_started' not in st.session_state:
     st.session_state.num_groups = st.number_input("Anzahl der Gruppen (1-6):", min_value=1, max_value=6, value=1)
     st.button("Spiel starten", on_click=start_game_callback)
 else:
-    st.write(f"Aktuelle Gruppe: {quiz_game.groups[quiz_game.current_group_index]}")
-    st.write(f"Aktuelle Kategorie: {quiz_game.current_category}")
+    st.markdown(f"**Aktuelle Gruppe:** {quiz_game.groups[quiz_game.current_group_index]}")
+    st.markdown(f"**Aktuelle Kategorie:** {quiz_game.current_category}")
 
     # Falls noch keine Frage aktiv ist:
     if 'current_question' not in st.session_state:
         st.session_state.selected_dice = st.number_input("Geworfene Zahl (1-6) eingeben:", min_value=1, max_value=6, value=1)
         st.session_state.selected_points = st.number_input("Punkte setzen (1-6):", min_value=1, max_value=6, value=1)
         st.button("Frage auswählen", on_click=pick_question_callback)
+        # Leere den Frage-/Antwort-Container, falls dort noch alte Inhalte stehen
+        main_display.empty()
     else:
+        # Frage und ggf. Antwort im Hauptbereich anzeigen
         q = st.session_state.current_question
-        st.write(f"**Frage:** {q['question']}")
-        # Antwortbuttons anzeigen, falls noch keine Bewertung erfolgt ist.
+        content = f"**Frage:** {q['question']}"
+        if st.session_state.get('show_answer', False):
+            content += f"\n\n{q['answer']}"
+        main_display.markdown(content)
+
+        # Falls noch keine Bewertung erfolgt ist, Zeige die Antwort-Buttons
         if st.session_state.get('answered_correctly') is None:
             col1, col2 = st.columns(2)
             with col1:
                 st.button("Richtig", key="correct", on_click=answer_correct_callback)
             with col2:
                 st.button("Falsch", key="wrong", on_click=answer_wrong_callback)
-        # Unabhängig von der Bewertung: Sobald show_answer True ist, wird die Antwort direkt unter der Frage angezeigt.
+        # Falls Antwort freigegeben ist, dürfen andere Gruppen reagieren, wenn falsch
         if st.session_state.get('show_answer', False):
-            st.write(f"**Antwort:** {q['answer']}")
-            # Falls falsch geantwortet wurde, dürfen andere Gruppen antworten.
             if st.session_state.get('answered_correctly') == False:
-                st.write("Andere Gruppen können jetzt antworten:")
+                st.markdown("Andere Gruppen können jetzt antworten:")
                 for group in quiz_game.groups:
                     if group != quiz_game.groups[quiz_game.current_group_index]:
                         col_r, col_f = st.columns(2)
@@ -163,14 +174,12 @@ else:
                             st.button(f"{group} (Richtig)", on_click=lambda grp=group: other_group_correct_callback(grp))
                         with col_f:
                             st.button(f"{group} (Falsch)", on_click=lambda grp=group: other_group_wrong_callback(grp))
-            # Button zum Übergang in die nächste Runde – erst wenn die Antwort angezeigt wurde.
             st.button("Nächste Runde", on_click=next_round_callback)
 
     # Punktestände anzeigen
-    st.write("**Punktestände:**")
+    st.markdown("**Punktestände:**")
     for group, score in quiz_game.scores.items():
-        st.write(f"{group}: {score} Punkte")
+        st.markdown(f"{group}: {score} Punkte")
 
 if st.session_state.get('no_more_questions'):
-    st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
-
+    st.markdown("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
