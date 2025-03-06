@@ -56,17 +56,23 @@ class QuizGame:
         return None
 
     def next_turn(self):
-        """Zur nächsten Gruppe wechseln und ggf. Kategorie wechseln."""
+        """
+        Nächste Gruppe ist dran, Kategorie-Wechsel und Entfernen des alten Würfelergebnisses.
+        """
         self.current_group_index = (self.current_group_index + 1) % len(self.groups)
         if self.current_group_index == 0:
             current_category_index = self.categories.index(self.current_category)
             self.current_category = self.categories[(current_category_index + 1) % len(self.categories)]
         self.attempted_by_other_groups = False
+        
+        # Würfel-Ergebnis aus der Session entfernen, damit die nächste Gruppe neu würfeln muss.
+        if 'selected_dice' in st.session_state:
+            del st.session_state['selected_dice']
 
 
-# --------------------------------
-# Streamlit UI
-# --------------------------------
+# -----------------------------
+# Streamlit App
+# -----------------------------
 st.title("Quiz Spiel")
 
 # Spielinitialisierung
@@ -83,20 +89,21 @@ num_groups = st.number_input(
 
 if st.button("Spiel starten", disabled='current_question' in st.session_state):
     quiz_game.start_game(num_groups)
+    # Session-Status zurücksetzen (Achtung: dabei wird auch quiz_game entfernt)
     st.session_state.clear()
+    # quiz_game erneut speichern
     st.session_state['quiz_game'] = quiz_game
 
-# Spielverlauf
+# Wenn das Spiel läuft (Gruppen existieren)
 if quiz_game.groups:
     st.write(f"Aktuelle Gruppe: {quiz_game.groups[quiz_game.current_group_index]}")
     st.write(f"Aktuelle Kategorie: {quiz_game.current_category}")
 
-    # Würfeln
-    # --> Button ist nur gesperrt, wenn gerade eine Frage offen ist,
-    #     damit nicht während der Frage neu gewürfelt wird.
+    # Würfeln – kann nun bei jedem Zug neu geklickt werden
     if st.button("Würfeln", disabled='current_question' in st.session_state):
         st.session_state['selected_dice'] = random.randint(1, 6)
-    # Zeige geworfene Zahl, falls vorhanden
+    
+    # Gewürfelte Zahl anzeigen (falls vorhanden)
     if 'selected_dice' in st.session_state:
         st.write(f"Geworfene Zahl: {st.session_state['selected_dice']}")
 
@@ -119,12 +126,12 @@ if quiz_game.groups:
         else:
             st.write("Keine Fragen mehr verfügbar.")
 
-    # Wenn eine aktuelle Frage existiert
+    # Falls eine aktuelle Frage existiert
     if 'current_question' in st.session_state:
         question = st.session_state['current_question']
-        st.write(f"Frage: {question['question']}")
+        st.write(f"**Frage:** {question['question']}")
 
-        # Buttons für Richtig/Falsch nur, wenn die aktuelle Gruppe noch nicht geantwortet hat
+        # Buttons für Richtig/Falsch für die aktuelle Gruppe
         if not quiz_game.attempted_by_other_groups:
             col1, col2 = st.columns(2)
             with col1:
@@ -132,51 +139,46 @@ if quiz_game.groups:
                     st.session_state['show_answer'] = True
                     st.session_state['answered_correctly'] = True
                     quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] += st.session_state['selected_points']
-                    # Da richtig beantwortet: direkt nächste Gruppe
+                    # Nächste Gruppe, Frage entfernen
                     quiz_game.next_turn()
-                    # Beim Gruppenwechsel: alten Würfelwurf entfernen
-                    if 'selected_dice' in st.session_state:
-                        del st.session_state['selected_dice']
                     del st.session_state['current_question']
             with col2:
                 if st.button("Falsch", key="wrong", disabled=st.session_state.get('answered_correctly') is not None):
                     st.session_state['show_answer'] = True
                     st.session_state['answered_correctly'] = False
-                    # Andere Gruppen dürfen antworten
                     quiz_game.attempted_by_other_groups = True
 
-        # Anzeige der Antwort und ggf. andere Gruppen dürfen antworten
+        # Wenn die Antwort angezeigt werden soll
         if st.session_state.get('show_answer', False):
             st.write(f"**Antwort:** {question['answer']}")
-            
+
             # Nur wenn die aktuelle Gruppe falsch geantwortet hat, dürfen andere Gruppen ran
             if st.session_state.get('answered_correctly') == False:
                 if not st.session_state['other_group_answered']:
+                    st.write("Andere Gruppen können jetzt antworten:")
                     for i, group in enumerate(quiz_game.groups):
                         if i != quiz_game.current_group_index:
-                            if st.button(f"{group} antworten", key=f"group_{i}", disabled=st.session_state['other_group_answered']):
-                                st.session_state['other_group_answered'] = True
-                                col3, col4 = st.columns(2)
-                                with col3:
-                                    if st.button("Richtig", key=f"correct_{i}"):
-                                        quiz_game.scores[group] += 2
-                                with col4:
-                                    if st.button("Falsch", key=f"wrong_{i}"):
-                                        quiz_game.scores[group] -= 2
+                            col_r, col_f = st.columns(2)
+                            with col_r:
+                                if st.button(f"{group} (Richtig)", key=f"{group}_correct", disabled=st.session_state['other_group_answered']):
+                                    st.session_state['other_group_answered'] = True
+                                    quiz_game.scores[group] += 2
+                            with col_f:
+                                if st.button(f"{group} (Falsch)", key=f"{group}_wrong", disabled=st.session_state['other_group_answered']):
+                                    st.session_state['other_group_answered'] = True
+                                    quiz_game.scores[group] -= 2
 
-                # Nachdem andere Gruppen geantwortet haben (oder gar nicht), geht's zur nächsten Gruppe
+                # Sobald eine andere Gruppe (oder keine) geantwortet hat -> nächste Runde
                 quiz_game.next_turn()
-                # Beim Gruppenwechsel: alten Würfelwurf entfernen
-                if 'selected_dice' in st.session_state:
-                    del st.session_state['selected_dice']
                 if 'current_question' in st.session_state:
                     del st.session_state['current_question']
 
-    # Punktestände
-    st.write("Punktestände:")
+    # Punktestände anzeigen
+    st.write("**Punktestände:**")
     for group, score in quiz_game.scores.items():
         st.write(f"{group}: {score} Punkte")
 
-# Wenn alle Fragen aufgebraucht sind
+# Falls alle Fragen aufgebraucht sind
 if len(quiz_game.used_questions) == len(quiz_game.questions) and quiz_game.questions:
     st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
+
