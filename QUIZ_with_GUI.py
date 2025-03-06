@@ -56,11 +56,13 @@ class QuizGame:
         return None
 
     def next_turn(self):
+        """Zur nächsten Gruppe wechseln und ggf. Kategorie wechseln."""
         self.current_group_index = (self.current_group_index + 1) % len(self.groups)
         if self.current_group_index == 0:
             current_category_index = self.categories.index(self.current_category)
             self.current_category = self.categories[(current_category_index + 1) % len(self.categories)]
         self.attempted_by_other_groups = False
+
 
 # --------------------------------
 # Streamlit UI
@@ -90,8 +92,12 @@ if quiz_game.groups:
     st.write(f"Aktuelle Kategorie: {quiz_game.current_category}")
 
     # Würfeln
-    if st.button("Würfeln", disabled='current_question' in st.session_state or 'selected_dice' in st.session_state):
+    # --> Button ist nur gesperrt, wenn gerade eine Frage offen ist,
+    #     damit nicht während der Frage neu gewürfelt wird.
+    if st.button("Würfeln", disabled='current_question' in st.session_state):
         st.session_state['selected_dice'] = random.randint(1, 6)
+    # Zeige geworfene Zahl, falls vorhanden
+    if 'selected_dice' in st.session_state:
         st.write(f"Geworfene Zahl: {st.session_state['selected_dice']}")
 
     # Punkte setzen
@@ -126,8 +132,11 @@ if quiz_game.groups:
                     st.session_state['show_answer'] = True
                     st.session_state['answered_correctly'] = True
                     quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] += st.session_state['selected_points']
-                    # Da richtig beantwortet: direkt nächste Gruppe und Frage entfernen
+                    # Da richtig beantwortet: direkt nächste Gruppe
                     quiz_game.next_turn()
+                    # Beim Gruppenwechsel: alten Würfelwurf entfernen
+                    if 'selected_dice' in st.session_state:
+                        del st.session_state['selected_dice']
                     del st.session_state['current_question']
             with col2:
                 if st.button("Falsch", key="wrong", disabled=st.session_state.get('answered_correctly') is not None):
@@ -155,8 +164,11 @@ if quiz_game.groups:
                                     if st.button("Falsch", key=f"wrong_{i}"):
                                         quiz_game.scores[group] -= 2
 
-                # Nachdem eine andere Gruppe (oder keine) geantwortet hat, nächste Runde
+                # Nachdem andere Gruppen geantwortet haben (oder gar nicht), geht's zur nächsten Gruppe
                 quiz_game.next_turn()
+                # Beim Gruppenwechsel: alten Würfelwurf entfernen
+                if 'selected_dice' in st.session_state:
+                    del st.session_state['selected_dice']
                 if 'current_question' in st.session_state:
                     del st.session_state['current_question']
 
