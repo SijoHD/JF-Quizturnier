@@ -6,7 +6,7 @@ def load_questions(filename):
     questions = []
     categories = []
     current_category = None
-    question_id = 1  # ID für jede Frage
+    question_id = 1  # Jede Frage erhält eine eindeutige ID
 
     with open(filename, 'r', encoding='utf-8') as file:
         for line in file:
@@ -89,9 +89,8 @@ def answer_correct_callback():
     st.session_state.answered_correctly = True
     points = st.session_state.get('selected_points', 1)
     quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] += points
-    quiz_game.next_turn()
-    st.session_state.pop('current_question', None)
-    st.session_state.pop('current_question_id', None)
+    # Hier wird NICHT mehr direkt die aktuelle Frage gelöscht,
+    # sodass im Nebenfenster Frage und Antwort sichtbar bleiben.
 
 def answer_wrong_callback():
     st.session_state.show_answer = True
@@ -101,8 +100,11 @@ def answer_wrong_callback():
 
 def next_round_callback():
     quiz_game.next_turn()
+    # Lösche Frage und zugehörige ID, sodass beim nächsten Durchgang neu geladen wird.
     st.session_state.pop('current_question', None)
     st.session_state.pop('current_question_id', None)
+    st.session_state.show_answer = False
+    st.session_state.answered_correctly = None
 
 def other_group_correct_callback(group):
     quiz_game.scores[group] += 2
@@ -115,14 +117,14 @@ def other_group_wrong_callback(group):
 # ---------------------------
 st.title("Quiz Spiel")
 
-# Sidebar: Zeige Frage & Antwort
+# Sidebar: Hier sollen Frage und Antwort immer angezeigt werden!
 with st.sidebar:
     st.header("Aktuelle Frage & Antwort")
     if 'current_question' in st.session_state:
         q = st.session_state.current_question
-        st.write(f"**Frage:** {q['question']}")
-        if st.session_state.get('show_answer', False):
-            st.write(f"**Antwort:** {q['answer']}")
+        st.write(f"**Frage (ID {q['id']}):** {q['question']}")
+        # Die Antwort wird IMMER angezeigt – unabhängig von show_answer.
+        st.write(f"**Antwort:** {q['answer']}")
     else:
         st.write("Zurzeit keine aktive Frage.")
 
@@ -139,26 +141,22 @@ else:
     st.write(f"Aktuelle Gruppe: {quiz_game.groups[quiz_game.current_group_index]}")
     st.write(f"Aktuelle Kategorie: {quiz_game.current_category}")
 
+    # Hauptbereich: Frage wird angezeigt, Antwort erst freigegeben, wenn ein Button gedrückt wird
     if 'current_question' not in st.session_state:
         st.session_state.selected_dice = st.number_input("Geworfene Zahl (1-6) eingeben:", min_value=1, max_value=6, value=1)
         st.session_state.selected_points = st.number_input("Punkte setzen (1-6):", min_value=1, max_value=6, value=1)
         st.button("Frage auswählen", on_click=pick_question_callback)
     else:
         q = st.session_state.current_question
-        st.write(f"**Frage:** {q['question']}")
+        st.write(f"**Frage (ID {q['id']}):** {q['question']}")
         if st.session_state.get('answered_correctly') is None:
             col1, col2 = st.columns(2)
             with col1:
                 st.button("Richtig", key="correct", on_click=answer_correct_callback)
             with col2:
                 st.button("Falsch", key="wrong", on_click=answer_wrong_callback)
+        # Im Hauptbereich wird die Antwort erst angezeigt, wenn sie freigegeben wurde:
         if st.session_state.get('show_answer', False):
             st.write(f"**Antwort:** {q['answer']}")
-            st.button("Nächste Runde", on_click=next_round_callback)
-
-    st.write("**Punktestände:**")
-    for group, score in quiz_game.scores.items():
-        st.write(f"{group}: {score} Punkte")
-
-if st.session_state.get('no_more_questions'):
-    st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
+            # Falls falsch beantwortet, können andere Gruppen reagieren:
+            if st.session_state.get('a
