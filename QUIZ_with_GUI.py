@@ -75,18 +75,24 @@ class QuizGame:
 # --------------------------------------
 st.title("Quiz Spiel")
 
-# Sidebar für Frage & Antwort
+# ---------------------------
+# Sidebar: Frage & (spätere) Antwort
+# ---------------------------
 with st.sidebar:
     st.header("Aktuelle Frage & Antwort")
     if 'current_question' in st.session_state:
         question = st.session_state['current_question']
+        # Frage sofort einblenden
         st.write(f"**Frage:** {question['question']}")
+        
+        # Antwort nur anzeigen, wenn show_answer=True (also nach Richtig/Falsch)
         if st.session_state.get('show_answer', False):
             st.write(f"**Antwort:** {question['answer']}")
         else:
-            st.write("Antwort wird erst nach 'Richtig'/'Falsch' angezeigt.")
+            st.write("Antwort wird erst nach \"Richtig\"/\"Falsch\" angezeigt.")
     else:
         st.write("Zurzeit keine aktive Frage.")
+
 
 # Spielinitialisierung
 if 'quiz_game' not in st.session_state:
@@ -148,6 +154,7 @@ if quiz_game.groups:
     # Falls eine aktuelle Frage existiert
     if 'current_question' in st.session_state:
         question = st.session_state['current_question']
+        # Frage im Hauptfeld sofort anzeigen
         st.write(f"**Frage:** {question['question']}")
 
         # Buttons für Richtig/Falsch für die aktuelle Gruppe
