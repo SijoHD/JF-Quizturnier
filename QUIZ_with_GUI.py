@@ -103,7 +103,6 @@ if 'game_started' not in st.session_state:
     if st.button("Spiel starten"):
         quiz_game.start_game(num_groups)
         st.session_state['game_started'] = True
-        st.experimental_rerun()
 
 # Wenn das Spiel läuft (Gruppen existieren)
 if quiz_game.groups:
@@ -143,7 +142,6 @@ if quiz_game.groups:
                 st.session_state['answered_correctly'] = None
             else:
                 st.write("Keine Fragen mehr verfügbar.")
-            st.experimental_rerun()
 
     # Falls eine aktuelle Frage existiert
     if 'current_question' in st.session_state:
@@ -160,13 +158,11 @@ if quiz_game.groups:
                     quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] += st.session_state['selected_points']
                     quiz_game.next_turn()
                     del st.session_state['current_question']
-                    st.experimental_rerun()
             with col2:
                 if st.button("Falsch", key="wrong"):
                     st.session_state['show_answer'] = True
                     st.session_state['answered_correctly'] = False
                     quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] -= st.session_state['selected_points']
-                    st.experimental_rerun()
 
         # Antwort anzeigen und weiteren Gruppen erlauben zu antworten, falls falsch
         if st.session_state.get('show_answer', False):
@@ -179,17 +175,14 @@ if quiz_game.groups:
                         with col_r:
                             if st.button(f"{group} (Richtig)", key=f"{group}_correct"):
                                 quiz_game.scores[group] += 2
-                                st.experimental_rerun()
                         with col_f:
                             if st.button(f"{group} (Falsch)", key=f"{group}_wrong"):
                                 quiz_game.scores[group] -= 1
-                                st.experimental_rerun()
 
                 if st.button("Nächste Runde"):
                     quiz_game.next_turn()
                     if 'current_question' in st.session_state:
                         del st.session_state['current_question']
-                    st.experimental_rerun()
 
     # Punktestände anzeigen
     st.write("**Punktestände:**")
@@ -199,3 +192,4 @@ if quiz_game.groups:
 # Spielende, wenn alle Fragen aufgebraucht sind
 if len(quiz_game.used_questions) == len(quiz_game.questions) and quiz_game.questions:
     st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
+
