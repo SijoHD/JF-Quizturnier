@@ -6,6 +6,7 @@ def load_questions(filename):
     questions = []
     categories = []
     current_category = None
+    question_id = 1  # ID für jede Frage
 
     with open(filename, 'r', encoding='utf-8') as file:
         for line in file:
@@ -18,10 +19,12 @@ def load_questions(filename):
             elif line.startswith("Antwort:") and current_category:
                 answer = line.split("Antwort:", 1)[1].strip()
                 questions.append({
+                    "id": question_id,
                     "question": question,
                     "answer": answer,
                     "category": current_category
                 })
+                question_id += 1
     return questions, categories
 
 # QuizGame Klasse
@@ -75,6 +78,7 @@ def pick_question_callback():
     question = quiz_game.pick_question()
     if question:
         st.session_state.current_question = question
+        st.session_state.current_question_id = question['id']
         st.session_state.show_answer = False
         st.session_state.answered_correctly = None
     else:
@@ -85,6 +89,9 @@ def answer_correct_callback():
     st.session_state.answered_correctly = True
     points = st.session_state.get('selected_points', 1)
     quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] += points
+    quiz_game.next_turn()
+    st.session_state.pop('current_question', None)
+    st.session_state.pop('current_question_id', None)
 
 def answer_wrong_callback():
     st.session_state.show_answer = True
@@ -93,11 +100,9 @@ def answer_wrong_callback():
     quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] -= points
 
 def next_round_callback():
-    # Wechsel zur nächsten Runde und komplett löschen:
     quiz_game.next_turn()
     st.session_state.pop('current_question', None)
-    st.session_state.show_answer = False
-    st.session_state.answered_correctly = None
+    st.session_state.pop('current_question_id', None)
 
 def other_group_correct_callback(group):
     quiz_game.scores[group] += 2
@@ -106,25 +111,18 @@ def other_group_wrong_callback(group):
     quiz_game.scores[group] -= 1
 
 # ---------------------------
-# Container für Frage & Antwort
-# ---------------------------
-# Dieser Container wird jedes Mal neu befüllt, sodass alte Inhalte nicht mehr erscheinen.
-main_display = st.empty()
-sidebar_display = st.sidebar.empty()
-
-# ---------------------------
 # Streamlit App
 # ---------------------------
 st.title("Quiz Spiel")
 
-# Sidebar: Zeige aktuelle Frage (und Antwort, falls freigegeben)
-with sidebar_display.container():
-    st.header("Aktuelle Frage")
+# Sidebar: Zeige Frage & Antwort
+with st.sidebar:
+    st.header("Aktuelle Frage & Antwort")
     if 'current_question' in st.session_state:
         q = st.session_state.current_question
-        st.markdown(f"**Frage:** {q['question']}")
+        st.write(f"**Frage:** {q['question']}")
         if st.session_state.get('show_answer', False):
-            st.markdown(q['answer'])
+            st.write(f"**Antwort:** {q['answer']}")
     else:
         st.write("Zurzeit keine aktive Frage.")
 
@@ -138,48 +136,29 @@ if 'game_started' not in st.session_state:
     st.session_state.num_groups = st.number_input("Anzahl der Gruppen (1-6):", min_value=1, max_value=6, value=1)
     st.button("Spiel starten", on_click=start_game_callback)
 else:
-    st.markdown(f"**Aktuelle Gruppe:** {quiz_game.groups[quiz_game.current_group_index]}")
-    st.markdown(f"**Aktuelle Kategorie:** {quiz_game.current_category}")
+    st.write(f"Aktuelle Gruppe: {quiz_game.groups[quiz_game.current_group_index]}")
+    st.write(f"Aktuelle Kategorie: {quiz_game.current_category}")
 
-    # Falls noch keine Frage aktiv ist:
     if 'current_question' not in st.session_state:
         st.session_state.selected_dice = st.number_input("Geworfene Zahl (1-6) eingeben:", min_value=1, max_value=6, value=1)
         st.session_state.selected_points = st.number_input("Punkte setzen (1-6):", min_value=1, max_value=6, value=1)
         st.button("Frage auswählen", on_click=pick_question_callback)
-        # Leere den Frage-/Antwort-Container, falls dort noch alte Inhalte stehen
-        main_display.empty()
     else:
-        # Frage und ggf. Antwort im Hauptbereich anzeigen
         q = st.session_state.current_question
-        content = f"**Frage:** {q['question']}"
-        if st.session_state.get('show_answer', False):
-            content += f"\n\n{q['answer']}"
-        main_display.markdown(content)
-
-        # Falls noch keine Bewertung erfolgt ist, Zeige die Antwort-Buttons
+        st.write(f"**Frage:** {q['question']}")
         if st.session_state.get('answered_correctly') is None:
             col1, col2 = st.columns(2)
             with col1:
                 st.button("Richtig", key="correct", on_click=answer_correct_callback)
             with col2:
                 st.button("Falsch", key="wrong", on_click=answer_wrong_callback)
-        # Falls Antwort freigegeben ist, dürfen andere Gruppen reagieren, wenn falsch
         if st.session_state.get('show_answer', False):
-            if st.session_state.get('answered_correctly') == False:
-                st.markdown("Andere Gruppen können jetzt antworten:")
-                for group in quiz_game.groups:
-                    if group != quiz_game.groups[quiz_game.current_group_index]:
-                        col_r, col_f = st.columns(2)
-                        with col_r:
-                            st.button(f"{group} (Richtig)", on_click=lambda grp=group: other_group_correct_callback(grp))
-                        with col_f:
-                            st.button(f"{group} (Falsch)", on_click=lambda grp=group: other_group_wrong_callback(grp))
+            st.write(f"**Antwort:** {q['answer']}")
             st.button("Nächste Runde", on_click=next_round_callback)
 
-    # Punktestände anzeigen
-    st.markdown("**Punktestände:**")
+    st.write("**Punktestände:**")
     for group, score in quiz_game.scores.items():
-        st.markdown(f"{group}: {score} Punkte")
+        st.write(f"{group}: {score} Punkte")
 
 if st.session_state.get('no_more_questions'):
-    st.markdown("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
+    st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
