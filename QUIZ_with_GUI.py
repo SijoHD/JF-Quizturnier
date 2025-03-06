@@ -68,27 +68,26 @@ if 'quiz_game' not in st.session_state:
 quiz_game = st.session_state['quiz_game']
 
 # Anzahl der Gruppen eingeben
-num_groups = st.number_input("Anzahl der Gruppen (1-6):", min_value=1, max_value=6, value=1, disabled='current_question' in st.session_state and st.session_state['current_question'] is not None)
+num_groups = st.number_input("Anzahl der Gruppen (1-6):", min_value=1, max_value=6, value=1, disabled='current_question' in st.session_state)
 
-if st.button("Spiel starten", disabled='current_question' in st.session_state and st.session_state['current_question'] is not None):
+if st.button("Spiel starten", disabled='current_question' in st.session_state):
     quiz_game.start_game(num_groups)
-    st.session_state['current_question'] = None
-    st.session_state['show_answer'] = False
-    st.session_state['other_group_answered'] = False
+    st.session_state.clear()
+    st.session_state['quiz_game'] = quiz_game
 
 # Spielverlauf
 if quiz_game.groups:
     st.write(f"Aktuelle Gruppe: {quiz_game.groups[quiz_game.current_group_index]}")
     st.write(f"Aktuelle Kategorie: {quiz_game.current_category}")
 
-    if st.button("Würfeln", disabled='current_question' in st.session_state and st.session_state['current_question'] is not None):
+    if st.button("Würfeln", disabled='current_question' in st.session_state):
         st.session_state['selected_dice'] = random.randint(1, 6)
         st.write(f"Geworfene Zahl: {st.session_state['selected_dice']}")
 
-    points = st.number_input("Punkte setzen (1-6):", min_value=1, max_value=6, value=1, disabled='current_question' in st.session_state and st.session_state['current_question'] is not None)
+    points = st.number_input("Punkte setzen (1-6):", min_value=1, max_value=6, value=1, disabled='current_question' in st.session_state)
     st.session_state['selected_points'] = points
 
-    if st.button("Frage auswählen", disabled='current_question' in st.session_state and st.session_state['current_question'] is not None):
+    if st.button("Frage auswählen", disabled='current_question' in st.session_state):
         question = quiz_game.pick_question()
         if question:
             st.session_state['current_question'] = question
@@ -98,23 +97,24 @@ if quiz_game.groups:
         else:
             st.write("Keine Fragen mehr verfügbar.")
 
-    if st.session_state.get('current_question'):
+    if 'current_question' in st.session_state:
         question = st.session_state['current_question']
         st.write(f"Frage: {question['question']}")
         
         if not quiz_game.attempted_by_other_groups:
-            if st.button("Richtig", disabled=st.session_state.get('answered_correctly') is not None):
-                st.session_state['show_answer'] = True
-                st.session_state['answered_correctly'] = True
-                st.write("Richtige Antwort!")
-                quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] += st.session_state['selected_points']
-                quiz_game.next_turn()
-                st.session_state['current_question'] = None
-            if st.button("Falsch", disabled=st.session_state.get('answered_correctly') is not None):
-                st.session_state['show_answer'] = True
-                st.session_state['answered_correctly'] = False
-                st.write("Falsche Antwort!")
-                quiz_game.attempted_by_other_groups = True
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("Richtig", key="correct", disabled=st.session_state.get('answered_correctly') is not None):
+                    st.session_state['show_answer'] = True
+                    st.session_state['answered_correctly'] = True
+                    quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] += st.session_state['selected_points']
+                    quiz_game.next_turn()
+                    del st.session_state['current_question']
+            with col2:
+                if st.button("Falsch", key="wrong", disabled=st.session_state.get('answered_correctly') is not None):
+                    st.session_state['show_answer'] = True
+                    st.session_state['answered_correctly'] = False
+                    quiz_game.attempted_by_other_groups = True
 
         if st.session_state.get('show_answer', False):
             st.write(f"Antwort: {question['answer']}")
@@ -123,14 +123,15 @@ if quiz_game.groups:
                     if i != quiz_game.current_group_index:
                         if st.button(f"{group} antworten", key=f"group_{i}", disabled=st.session_state['other_group_answered']):
                             st.session_state['other_group_answered'] = True
-                            if st.button("Richtig", key=f"correct_{i}"):
-                                st.write(f"{group} hat richtig geantwortet!")
-                                quiz_game.scores[group] += 2
-                            elif st.button("Falsch", key=f"wrong_{i}"):
-                                st.write(f"{group} hat falsch geantwortet!")
-                                quiz_game.scores[group] -= 2
+                            col3, col4 = st.columns(2)
+                            with col3:
+                                if st.button("Richtig", key=f"correct_{i}"):
+                                    quiz_game.scores[group] += 2
+                            with col4:
+                                if st.button("Falsch", key=f"wrong_{i}"):
+                                    quiz_game.scores[group] -= 2
             quiz_game.next_turn()
-            st.session_state['current_question'] = None
+            del st.session_state['current_question']
 
     st.write("Punktestände:")
     for group, score in quiz_game.scores.items():
@@ -138,4 +139,3 @@ if quiz_game.groups:
 
 if len(quiz_game.used_questions) == len(quiz_game.questions) and quiz_game.questions:
     st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
-
