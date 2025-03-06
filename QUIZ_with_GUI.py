@@ -159,4 +159,20 @@ else:
         if st.session_state.get('show_answer', False):
             st.write(f"**Antwort:** {q['answer']}")
             # Falls falsch beantwortet, können andere Gruppen reagieren:
-            if st.session_state.get('a
+            if st.session_state.get('answered_correctly') == False:
+                st.write("Andere Gruppen können jetzt antworten:")
+                for group in quiz_game.groups:
+                    if group != quiz_game.groups[quiz_game.current_group_index]:
+                        col_r, col_f = st.columns(2)
+                        with col_r:
+                            st.button(f"{group} (Richtig)", on_click=lambda grp=group: other_group_correct_callback(grp))
+                        with col_f:
+                            st.button(f"{group} (Falsch)", on_click=lambda grp=group: other_group_wrong_callback(grp))
+            st.button("Nächste Runde", on_click=next_round_callback)
+
+    st.write("**Punktestände:**")
+    for group, score in quiz_game.scores.items():
+        st.write(f"{group}: {score} Punkte")
+
+if st.session_state.get('no_more_questions'):
+    st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
