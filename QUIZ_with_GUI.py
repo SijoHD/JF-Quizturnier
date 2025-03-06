@@ -1,3 +1,4 @@
+
 import streamlit as st
 import random
 
@@ -65,7 +66,7 @@ class QuizGame:
             self.current_category = self.categories[(current_category_index + 1) % len(self.categories)]
         self.attempted_by_other_groups = False
 
-        # Entferne den Würfelwert, damit jede Gruppe neu würfeln muss
+        # Entferne den Würfelwert, damit jede Gruppe neu einen Wert eingeben kann
         if 'selected_dice' in st.session_state:
             del st.session_state['selected_dice']
 
@@ -99,13 +100,20 @@ if quiz_game.groups:
     st.write(f"Aktuelle Gruppe: {quiz_game.groups[quiz_game.current_group_index]}")
     st.write(f"Aktuelle Kategorie: {quiz_game.current_category}")
 
-    # Würfeln
-    if st.button("Würfeln", disabled='current_question' in st.session_state):
-        st.session_state['selected_dice'] = random.randint(1, 6)
-
-    # Gewürfelte Zahl anzeigen (falls vorhanden)
-    if 'selected_dice' in st.session_state:
+    # Geworfene Zahl manuell eingeben (statt random Würfeln)
+    if 'current_question' not in st.session_state:
+        # Nur solange keine Frage läuft, darf die Gruppe ihren Würfelwert neu setzen
+        st.session_state['selected_dice'] = st.number_input(
+            "Geworfene Zahl (1-6) eingeben:",
+            min_value=1, max_value=6, value=1
+        )
         st.write(f"Geworfene Zahl: {st.session_state['selected_dice']}")
+    else:
+        # Wenn eine Frage läuft, zeige an, was bereits 'gewürfelt' wurde
+        if 'selected_dice' in st.session_state:
+            st.write(f"Geworfene Zahl: {st.session_state['selected_dice']}")
+        else:
+            st.write("Noch kein Wert für diesen Zug gesetzt.")
 
     # Punkte setzen
     points = st.number_input(
@@ -172,7 +180,7 @@ if quiz_game.groups:
                             if st.button(f"{group} (Falsch)", key=f"{group}_wrong"):
                                 quiz_game.scores[group] -= 1
 
-                # Am Ende: „Nächste Runde“-Button, damit wirklich alle Gruppen klicken können
+                # Am Ende: „Nächste Runde“-Button
                 if st.button("Nächste Runde"):
                     quiz_game.next_turn()
                     del st.session_state['current_question']
@@ -185,5 +193,3 @@ if quiz_game.groups:
 # Falls alle Fragen aufgebraucht sind
 if len(quiz_game.used_questions) == len(quiz_game.questions) and quiz_game.questions:
     st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
-
-
