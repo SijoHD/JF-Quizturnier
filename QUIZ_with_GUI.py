@@ -85,20 +85,21 @@ def answer_correct_callback():
     st.session_state.answered_correctly = True
     points = st.session_state.get('selected_points', 1)
     quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] += points
-    quiz_game.next_turn()
-    if 'current_question' in st.session_state:
-        del st.session_state['current_question']
+    # Hier erfolgt noch kein Übergang zur nächsten Runde
 
 def answer_wrong_callback():
     st.session_state.show_answer = True
     st.session_state.answered_correctly = False
     points = st.session_state.get('selected_points', 1)
     quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] -= points
+    # Hier erfolgt noch kein Übergang zur nächsten Runde
 
 def next_round_callback():
     quiz_game.next_turn()
     if 'current_question' in st.session_state:
         del st.session_state['current_question']
+    st.session_state.show_answer = False
+    st.session_state.answered_correctly = None
 
 def other_group_correct_callback(group):
     quiz_game.scores[group] += 2
@@ -142,16 +143,17 @@ else:
     else:
         q = st.session_state.current_question
         st.write(f"**Frage:** {q['question']}")
-        # Antwortbuttons für die aktuelle Gruppe
+        # Antwortbuttons anzeigen, falls noch keine Bewertung erfolgt ist.
         if st.session_state.get('answered_correctly') is None:
             col1, col2 = st.columns(2)
             with col1:
                 st.button("Richtig", key="correct", on_click=answer_correct_callback)
             with col2:
                 st.button("Falsch", key="wrong", on_click=answer_wrong_callback)
-        # Antwort anzeigen und weitere Gruppen dürfen antworten, falls falsch:
+        # Unabhängig von der Bewertung: Sobald show_answer True ist, wird die Antwort direkt unter der Frage angezeigt.
         if st.session_state.get('show_answer', False):
             st.write(f"**Antwort:** {q['answer']}")
+            # Falls falsch geantwortet wurde, dürfen andere Gruppen antworten.
             if st.session_state.get('answered_correctly') == False:
                 st.write("Andere Gruppen können jetzt antworten:")
                 for group in quiz_game.groups:
@@ -161,7 +163,8 @@ else:
                             st.button(f"{group} (Richtig)", on_click=lambda grp=group: other_group_correct_callback(grp))
                         with col_f:
                             st.button(f"{group} (Falsch)", on_click=lambda grp=group: other_group_wrong_callback(grp))
-                st.button("Nächste Runde", on_click=next_round_callback)
+            # Button zum Übergang in die nächste Runde – erst wenn die Antwort angezeigt wurde.
+            st.button("Nächste Runde", on_click=next_round_callback)
 
     # Punktestände anzeigen
     st.write("**Punktestände:**")
