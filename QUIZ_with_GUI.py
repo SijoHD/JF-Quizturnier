@@ -11,18 +11,17 @@ def load_questions(filename):
         for line in file:
             line = line.strip()
             if line.startswith("Kategorie:"):
-                current_category = line.split(":")[1].strip()
+                current_category = line.split(":", 1)[1].strip()
                 categories.append(current_category)
             elif line.startswith(("Wie", "Was", "Welcher", "Wofür")):
                 question = line
             elif line.startswith("Antwort:") and current_category:
-                answer = line.split("Antwort:")[1].strip()
+                answer = line.split("Antwort:", 1)[1].strip()
                 questions.append({
                     "question": question,
                     "answer": answer,
                     "category": current_category
                 })
-
     return questions, categories
 
 # QuizGame Klasse
@@ -46,7 +45,7 @@ class QuizGame:
 
     def pick_question(self):
         available_questions = [
-            q for q in self.questions
+            q for q in self.questions 
             if q not in self.used_questions and q['category'] == self.current_category
         ]
         if available_questions:
@@ -56,9 +55,6 @@ class QuizGame:
         return None
 
     def next_turn(self):
-        """
-        Nächste Gruppe ist dran, ggf. Kategorie-Wechsel und Würfel-Ergebnis löschen.
-        """
         self.current_group_index = (self.current_group_index + 1) % len(self.groups)
         if self.current_group_index == 0:
             current_category_index = self.categories.index(self.current_category)
@@ -67,129 +63,111 @@ class QuizGame:
         if 'selected_dice' in st.session_state:
             del st.session_state['selected_dice']
 
-# --------------------------------------
-# Streamlit App
-# --------------------------------------
-st.title("Quiz Spiel")
+# ---------------------------
+# Callback-Funktionen
+# ---------------------------
+def start_game_callback():
+    num_groups = st.session_state.get('num_groups', 1)
+    quiz_game.start_game(num_groups)
+    st.session_state.game_started = True
+
+def pick_question_callback():
+    question = quiz_game.pick_question()
+    if question:
+        st.session_state.current_question = question
+        st.session_state.show_answer = False
+        st.session_state.answered_correctly = None
+    else:
+        st.session_state.no_more_questions = True
+
+def answer_correct_callback():
+    st.session_state.show_answer = True
+    st.session_state.answered_correctly = True
+    points = st.session_state.get('selected_points', 1)
+    quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] += points
+    quiz_game.next_turn()
+    if 'current_question' in st.session_state:
+        del st.session_state['current_question']
+
+def answer_wrong_callback():
+    st.session_state.show_answer = True
+    st.session_state.answered_correctly = False
+    points = st.session_state.get('selected_points', 1)
+    quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] -= points
+
+def next_round_callback():
+    quiz_game.next_turn()
+    if 'current_question' in st.session_state:
+        del st.session_state['current_question']
+
+def other_group_correct_callback(group):
+    quiz_game.scores[group] += 2
+
+def other_group_wrong_callback(group):
+    quiz_game.scores[group] -= 1
 
 # ---------------------------
-# Sidebar: Zeige sofort Frage & Antwort
+# Streamlit App
 # ---------------------------
+st.title("Quiz Spiel")
+
+# Sidebar: Zeige Frage & Antwort
 with st.sidebar:
     st.header("Aktuelle Frage & Antwort")
     if 'current_question' in st.session_state:
-        question = st.session_state['current_question']
-        st.write(f"**Frage:** {question['question']}")
-        st.write(f"**Antwort:** {question['answer']}")
+        q = st.session_state.current_question
+        st.write(f"**Frage:** {q['question']}")
+        st.write(f"**Antwort:** {q['answer']}")
     else:
         st.write("Zurzeit keine aktive Frage.")
 
-# Spielinitialisierung
+# QuizGame initialisieren
 if 'quiz_game' not in st.session_state:
-    st.session_state['quiz_game'] = QuizGame()
-quiz_game = st.session_state['quiz_game']
+    st.session_state.quiz_game = QuizGame()
+quiz_game = st.session_state.quiz_game
 
-# Anzahl der Gruppen (Eingabe nur vor Spielstart)
+# Spielstart
 if 'game_started' not in st.session_state:
-    num_groups = st.number_input(
-        "Anzahl der Gruppen (1-6):",
-        min_value=1, max_value=6, value=1
-    )
+    st.session_state.num_groups = st.number_input("Anzahl der Gruppen (1-6):", min_value=1, max_value=6, value=1)
+    st.button("Spiel starten", on_click=start_game_callback)
 else:
-    num_groups = len(quiz_game.groups)
-
-# Spiel starten (ohne komplettes Löschen des Session-States)
-if 'game_started' not in st.session_state:
-    if st.button("Spiel starten"):
-        quiz_game.start_game(num_groups)
-        st.session_state['game_started'] = True
-
-# Wenn das Spiel läuft (Gruppen existieren)
-if quiz_game.groups:
     st.write(f"Aktuelle Gruppe: {quiz_game.groups[quiz_game.current_group_index]}")
     st.write(f"Aktuelle Kategorie: {quiz_game.current_category}")
 
-    # Geworfene Zahl manuell eingeben (nur wenn aktuell keine Frage läuft)
+    # Falls noch keine Frage aktiv ist:
     if 'current_question' not in st.session_state:
-        st.session_state['selected_dice'] = st.number_input(
-            "Geworfene Zahl (1-6) eingeben:",
-            min_value=1, max_value=6, value=1
-        )
-        st.write(f"Geworfene Zahl: {st.session_state['selected_dice']}")
+        st.session_state.selected_dice = st.number_input("Geworfene Zahl (1-6) eingeben:", min_value=1, max_value=6, value=1)
+        st.session_state.selected_points = st.number_input("Punkte setzen (1-6):", min_value=1, max_value=6, value=1)
+        st.button("Frage auswählen", on_click=pick_question_callback)
     else:
-        if 'selected_dice' in st.session_state:
-            st.write(f"Geworfene Zahl: {st.session_state['selected_dice']}")
-        else:
-            st.write("Noch kein Wert für diesen Zug gesetzt.")
-
-    # Punkte setzen (nur wenn aktuell keine Frage läuft)
-    if 'current_question' not in st.session_state:
-        points = st.number_input(
-            "Punkte setzen (1-6):",
-            min_value=1, max_value=6, value=1
-        )
-        st.session_state['selected_points'] = points
-    else:
-        st.write(f"Gesetzte Punkte: {st.session_state.get('selected_points', 1)}")
-
-    # Frage auswählen (nur wenn aktuell keine Frage läuft)
-    if 'current_question' not in st.session_state:
-        if st.button("Frage auswählen"):
-            question = quiz_game.pick_question()
-            if question:
-                st.session_state['current_question'] = question
-                st.session_state['show_answer'] = False
-                st.session_state['answered_correctly'] = None
-            else:
-                st.write("Keine Fragen mehr verfügbar.")
-
-    # Falls eine aktuelle Frage existiert
-    if 'current_question' in st.session_state:
-        question = st.session_state['current_question']
-        st.write(f"**Frage:** {question['question']}")
-
+        q = st.session_state.current_question
+        st.write(f"**Frage:** {q['question']}")
         # Antwortbuttons für die aktuelle Gruppe
         if st.session_state.get('answered_correctly') is None:
             col1, col2 = st.columns(2)
             with col1:
-                if st.button("Richtig", key="correct"):
-                    st.session_state['show_answer'] = True
-                    st.session_state['answered_correctly'] = True
-                    quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] += st.session_state['selected_points']
-                    quiz_game.next_turn()
-                    del st.session_state['current_question']
+                st.button("Richtig", key="correct", on_click=answer_correct_callback)
             with col2:
-                if st.button("Falsch", key="wrong"):
-                    st.session_state['show_answer'] = True
-                    st.session_state['answered_correctly'] = False
-                    quiz_game.scores[quiz_game.groups[quiz_game.current_group_index]] -= st.session_state['selected_points']
-
-        # Antwort anzeigen und weiteren Gruppen erlauben zu antworten, falls falsch
+                st.button("Falsch", key="wrong", on_click=answer_wrong_callback)
+        # Antwort anzeigen und weitere Gruppen dürfen antworten, falls falsch:
         if st.session_state.get('show_answer', False):
-            st.write(f"**Antwort:** {question['answer']}")
+            st.write(f"**Antwort:** {q['answer']}")
             if st.session_state.get('answered_correctly') == False:
                 st.write("Andere Gruppen können jetzt antworten:")
-                for i, group in enumerate(quiz_game.groups):
-                    if i != quiz_game.current_group_index:
+                for group in quiz_game.groups:
+                    if group != quiz_game.groups[quiz_game.current_group_index]:
                         col_r, col_f = st.columns(2)
                         with col_r:
-                            if st.button(f"{group} (Richtig)", key=f"{group}_correct"):
-                                quiz_game.scores[group] += 2
+                            st.button(f"{group} (Richtig)", on_click=lambda grp=group: other_group_correct_callback(grp))
                         with col_f:
-                            if st.button(f"{group} (Falsch)", key=f"{group}_wrong"):
-                                quiz_game.scores[group] -= 1
-
-                if st.button("Nächste Runde"):
-                    quiz_game.next_turn()
-                    if 'current_question' in st.session_state:
-                        del st.session_state['current_question']
+                            st.button(f"{group} (Falsch)", on_click=lambda grp=group: other_group_wrong_callback(grp))
+                st.button("Nächste Runde", on_click=next_round_callback)
 
     # Punktestände anzeigen
     st.write("**Punktestände:**")
     for group, score in quiz_game.scores.items():
         st.write(f"{group}: {score} Punkte")
 
-# Spielende, wenn alle Fragen aufgebraucht sind
-if len(quiz_game.used_questions) == len(quiz_game.questions) and quiz_game.questions:
+if st.session_state.get('no_more_questions'):
     st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
 
