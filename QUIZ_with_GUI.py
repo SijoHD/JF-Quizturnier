@@ -1,4 +1,3 @@
-
 import streamlit as st
 import random
 
@@ -71,10 +70,23 @@ class QuizGame:
             del st.session_state['selected_dice']
 
 
-# -----------------------------
+# --------------------------------------
 # Streamlit App
-# -----------------------------
+# --------------------------------------
 st.title("Quiz Spiel")
+
+# Sidebar für Frage & Antwort
+with st.sidebar:
+    st.header("Aktuelle Frage & Antwort")
+    if 'current_question' in st.session_state:
+        question = st.session_state['current_question']
+        st.write(f"**Frage:** {question['question']}")
+        if st.session_state.get('show_answer', False):
+            st.write(f"**Antwort:** {question['answer']}")
+        else:
+            st.write("Antwort wird erst nach 'Richtig'/'Falsch' angezeigt.")
+    else:
+        st.write("Zurzeit keine aktive Frage.")
 
 # Spielinitialisierung
 if 'quiz_game' not in st.session_state:
@@ -100,7 +112,7 @@ if quiz_game.groups:
     st.write(f"Aktuelle Gruppe: {quiz_game.groups[quiz_game.current_group_index]}")
     st.write(f"Aktuelle Kategorie: {quiz_game.current_category}")
 
-    # Geworfene Zahl manuell eingeben (statt random Würfeln)
+    # Geworfene Zahl manuell eingeben (statt random)
     if 'current_question' not in st.session_state:
         # Nur solange keine Frage läuft, darf die Gruppe ihren Würfelwert neu setzen
         st.session_state['selected_dice'] = st.number_input(
@@ -193,3 +205,4 @@ if quiz_game.groups:
 # Falls alle Fragen aufgebraucht sind
 if len(quiz_game.used_questions) == len(quiz_game.questions) and quiz_game.questions:
     st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
+
