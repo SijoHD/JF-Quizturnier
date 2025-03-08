@@ -62,7 +62,7 @@ class QuizGame:
         self.current_question = None
         self.current_category = None
         self.scores = {}
-        self.questions, self.categories = load_questions("Alle_150_Quizfragen.txt")
+        self.questions, self.categories = load_questions("Quizfragen 2 - Kopie.txt")
         self.used_questions = []
         self.attempted_by_other_groups = False
 
