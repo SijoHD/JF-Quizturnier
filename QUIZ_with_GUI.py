@@ -72,7 +72,7 @@ class QuizGame:
         self.groups = [f"Gruppe {i + 1}" for i in range(num_groups)]
         self.scores = {group: 0 for group in self.groups}
         self.current_group_index = 0
-        # Falls keine Kategorien vorhanden sind, bleibe None
+        # Falls keine Kategorien vorhanden sind, bleibt current_category None
         if self.categories:
             self.current_category = self.categories[0]
         self.attempted_by_other_groups = False
@@ -162,8 +162,11 @@ def other_group_wrong_callback(group):
 
 # Neuer Callback für Buzzerrunde-Antworten
 def buzz_answer_callback(group, correct):
+    # Überprüfen, ob diese Gruppe bereits geantwortet hat
+    if group in quiz_game.buzz_answers:
+        return  # Falls ja, keine weitere Verarbeitung
     quiz_game.answer_buzz(group, correct)
-    st.experimental_rerun()  # Aktualisiert die Anzeige, nachdem eine Gruppe geantwortet hat
+    # Kein explizites st.experimental_rerun() – der Callback führt ohnehin zu einem Neulauf
 
 # -------------------------------------
 # Streamlit-App
@@ -177,7 +180,7 @@ with st.sidebar:
         q = st.session_state.current_question
         st.write(f"**Frage (ID {q['id']}):** {q['question']}")
         st.write(f"**Antwort (ID {q['id']}):** {q['answer']}")
-        # Test, ob Frage-ID und Antwort-ID identisch sind
+        # Test, ob Frage-ID und Antwort-ID übereinstimmen
         if q['id'] == q['id']:
             st.write("Die Frage-ID und Antwort-ID stimmen überein.")
     else:
