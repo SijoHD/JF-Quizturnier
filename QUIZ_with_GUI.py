@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-# CSS für einen festen Footer in der Sidebar
+# CSS für einen festen Footer in der Sidebar mit fester Höhe
 st.markdown(
     """
     <style>
@@ -9,9 +9,11 @@ st.markdown(
         position: fixed;
         bottom: 0;
         width: 230px;  /* Passe die Breite nach Bedarf an */
+        height: 300px;  /* Feste Höhe */
         background-color: #f0f2f6;
         padding: 10px;
         border-top: 1px solid #ddd;
+        overflow: auto;  /* Scrollbalken, wenn Inhalt zu lang */
     }
     </style>
     """,
@@ -31,13 +33,11 @@ def load_questions(filename):
     with open(filename, 'r', encoding='utf-8') as file:
         for line in file:
             line = line.strip()
-            
             # 1) Kategorie-Wechsel
             if line.startswith("Kategorie:"):
                 current_category = line.split(":", 1)[1].strip()
                 if current_category not in categories:
                     categories.append(current_category)
-
             # 2) Antwort-Zeile
             elif line.startswith("Antwort:"):
                 answer = line.split("Antwort:", 1)[1].strip()
@@ -51,7 +51,6 @@ def load_questions(filename):
                     })
                     question_id += 1
                 question_lines = []
-
             # 3) Zeile als Teil der Frage
             else:
                 if current_category and line:
@@ -94,7 +93,7 @@ class QuizGame:
             self.current_question = random.choice(available_questions)
             self.used_questions.append(self.current_question)
             if self.current_category == "Buzzerrunde":
-                self.buzz_answers = {}  # Alle Buzzes für diese Frage zurücksetzen
+                self.buzz_answers = {}  # Buzz-Daten zurücksetzen
             return self.current_question
         return None
 
@@ -166,7 +165,7 @@ def other_group_wrong_callback(group):
     quiz_game.scores[group] -= 1
 
 def buzz_answer_callback(group, correct):
-    # Hier erfolgt KEINE Prüfung, ob die Gruppe schon geantwortet hat – jeder Buzz zählt.
+    # Jeder Buzz wird gezählt – Punkte werden jedes Mal vergeben.
     quiz_game.answer_buzz(group, correct)
     st.session_state.buzzed_group = group
 
@@ -185,7 +184,7 @@ def skip_normal_question_callback():
 # -------------------------------------
 st.title("Quiz Spiel")
 
-# Sidebar: Oben erscheint weiterhin der statische Bereich "Aktuelle Frage & Antwort"
+# Sidebar: Oben erscheint der statische Bereich "Aktuelle Frage & Antwort"
 with st.sidebar:
     st.header("Aktuelle Frage & Antwort")
     if 'current_question' in st.session_state:
@@ -216,7 +215,7 @@ else:
         q = st.session_state.current_question
         st.write(f"**Frage (ID {q['id']}):** {q['question']}")
 
-        # Buzzerrunde: Es erfolgt extern (über Dropdown) die Auswahl der buzzenden Gruppe.
+        # Buzzerrunde: Auswahl der buzzenden Gruppe erfolgt extern per Dropdown.
         if quiz_game.current_category == "Buzzerrunde":
             st.write("**Buzzerrunde:** Wähle die Gruppe, die als Erste buzzert hat.")
             if "buzzed_group" not in st.session_state:
@@ -269,7 +268,7 @@ else:
 if st.session_state.get('no_more_questions'):
     st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
 
-# Fester Footer in der Sidebar: Rangliste und aktuelle Frage
+# Fester Footer in der Sidebar: Rangliste und aktuelle Frage an fester Stelle
 with st.sidebar:
     st.markdown('<div class="fixed-footer">', unsafe_allow_html=True)
     st.markdown("### Aktuelle Rangliste")
