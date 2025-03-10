@@ -34,6 +34,7 @@ def load_questions(filename):
                     })
                     question_id += 1
                 question_lines = []
+
             # 3) Zeile als Teil der Frage
             else:
                 if current_category and line:
@@ -53,7 +54,7 @@ class QuizGame:
         self.questions, self.categories = load_questions("Quizfragen.txt")
         self.used_questions = []
         self.attempted_by_other_groups = False
-        # Für Buzzerrunde: speichert, welche Gruppe bereits geantwortet hat.
+        # Für Buzzerrunde: speichert, welche Gruppe bereits als Erste geantwortet hat.
         self.buzz_answers = {}
 
     def start_game(self, num_groups):
@@ -75,13 +76,14 @@ class QuizGame:
         if available_questions:
             self.current_question = random.choice(available_questions)
             self.used_questions.append(self.current_question)
+            # Falls Buzzerrunde, leeren wir eventuelle alte Buzz-Antworten.
             if self.current_category == "Buzzerrunde":
                 self.buzz_answers = {}
             return self.current_question
         return None
 
     def answer_buzz(self, group, correct):
-        # +6 Punkte für richtig, -6 für falsch
+        # Punktevergabe: +6 für richtig, -6 für falsch
         if correct:
             self.scores[group] += 6
         else:
@@ -89,11 +91,13 @@ class QuizGame:
         self.buzz_answers[group] = correct
 
     def next_turn(self):
+        # Standard-Logik: Runde beenden, ggf. Kategorie wechseln
         self.current_group_index = (self.current_group_index + 1) % len(self.groups)
         if self.current_group_index == 0 and self.categories:
             current_category_index = self.categories.index(self.current_category)
             self.current_category = self.categories[(current_category_index + 1) % len(self.categories)]
         self.attempted_by_other_groups = False
+        # Bei Buzzerrunde auch die gespeicherten Buzz-Antworten zurücksetzen
         self.buzz_answers = {}
         if 'selected_dice' in st.session_state:
             del st.session_state['selected_dice']
@@ -113,6 +117,8 @@ def pick_question_callback():
         st.session_state.current_question_id = question['id']
         st.session_state.show_answer = False
         st.session_state.answered_correctly = None
+        # Im Buzzermodus den bisherigen "buzzed_group" zurücksetzen
+        st.session_state.buzzed_group = ""
     else:
         st.session_state.no_more_questions = True
 
@@ -142,21 +148,20 @@ def other_group_wrong_callback(group):
     quiz_game.scores[group] -= 1
 
 def buzz_answer_callback(group, correct):
+    # Falls bereits eine Antwort für die Buzzerrunde registriert wurde, keine weitere Verarbeitung.
     if group in quiz_game.buzz_answers:
         return
     quiz_game.answer_buzz(group, correct)
-    # Kein explizites st.experimental_rerun() – Streamlit führt nach dem Callback einen Neulauf durch.
+    # Kein explizites st.experimental_rerun() – Streamlit aktualisiert die Ansicht nach jedem Callback.
 
-# Skip-Funktion in der Buzzerrunde: wechselt zur nächsten Frage, wenn keine Gruppe geantwortet hat.
+# Skip-Funktion in der Buzzerrunde: wechselt zur nächsten Frage, wenn keine Gruppe ausgewählt oder geantwortet hat.
 def skip_buzz_question_callback():
-    if len(quiz_game.buzz_answers) == 0:
+    # Falls noch keine Gruppe ausgewählt wurde oder noch keine Antwort registriert ist, wechseln wir zur nächsten Frage.
+    if not st.session_state.get("buzzed_group", "") or not quiz_game.buzz_answers:
         next_round_callback()
 
-# Neu: Skip-Funktion im normalen Spielmodus – falls der Moderator die Frage überspringen will,
-# auch wenn noch nicht alle Gruppen geantwortet haben.
+# Skip-Funktion im normalen Spielmodus
 def skip_normal_question_callback():
-    # Im normalen Spielablauf kann nur eine Gruppe richtig beantworten,
-    # also wird hier direkt zur nächsten Frage gewechselt.
     next_round_callback()
 
 # -------------------------------------
@@ -170,8 +175,7 @@ with st.sidebar:
         q = st.session_state.current_question
         st.write(f"**Frage (ID {q['id']}):** {q['question']}")
         st.write(f"**Antwort (ID {q['id']}):** {q['answer']}")
-        if q['id'] == q['id']:
-            st.write("Die Frage-ID und Antwort-ID stimmen überein.")
+        st.write("Die Frage-ID und Antwort-ID stimmen überein.")
     else:
         st.write("Zurzeit keine aktive Frage.")
 
@@ -194,23 +198,32 @@ else:
         q = st.session_state.current_question
         st.write(f"**Frage (ID {q['id']}):** {q['question']}")
 
+        # Buzzerrunde: Es wird extern bestimmt, welche Gruppe zuerst buzzert.
         if quiz_game.current_category == "Buzzerrunde":
-            st.write("**Buzzerrunde:** Alle Gruppen beantworten diese Frage!")
-            for group in quiz_game.groups:
-                if group not in quiz_game.buzz_answers:
-                    col_r, col_w = st.columns(2)
-                    with col_r:
-                        st.button(f"{group} - Richtig", key=f"{group}_r", on_click=buzz_answer_callback, args=(group, True))
-                    with col_w:
-                        st.button(f"{group} - Falsch", key=f"{group}_w", on_click=buzz_answer_callback, args=(group, False))
-                else:
-                    antwort = "richtig" if quiz_game.buzz_answers[group] else "falsch"
-                    st.write(f"{group} hat bereits {antwort} geantwortet.")
-            if len(quiz_game.buzz_answers) == 0:
+            st.write("**Buzzerrunde:** Wähle die Gruppe, die als erste gebuzzert hat.")
+            # Wenn noch nicht vorhanden, setzen wir einen leeren Wert in Session State.
+            if "buzzed_group" not in st.session_state:
+                st.session_state.buzzed_group = ""
+            selected_group = st.selectbox("Welche Gruppe hat gebuzzert?", [""] + quiz_game.groups, key="buzzed_group")
+            if selected_group:
+                st.write(f"{selected_group} hat gebuzzert. Bitte wähle, ob die Antwort richtig oder falsch war.")
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.button("Richtig", key=f"{selected_group}_r", on_click=buzz_answer_callback, args=(selected_group, True))
+                with col2:
+                    st.button("Falsch", key=f"{selected_group}_f", on_click=buzz_answer_callback, args=(selected_group, False))
+            else:
+                st.write("Noch keine Gruppe ausgewählt.")
+
+            # Falls noch keine Antwort vorliegt, kann der Moderator die Frage überspringen.
+            if not quiz_game.buzz_answers:
                 st.button("Keine Antwort? Zur nächsten Frage", on_click=skip_buzz_question_callback)
-            if len(quiz_game.buzz_answers) == len(quiz_game.groups):
+            # Sobald eine Antwort registriert wurde, wird die korrekte Antwort angezeigt.
+            else:
                 st.write(f"**Antwort:** {q['answer']} (ID {q['id']})")
                 st.button("Nächste Runde", on_click=next_round_callback)
+
+        # Normaler Spielmodus
         else:
             st.write(f"(Antwort (ID {q['id']}))")
             if st.session_state.get('answered_correctly') is None:
