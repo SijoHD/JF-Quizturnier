@@ -168,6 +168,12 @@ def buzz_answer_callback(group, correct):
     quiz_game.answer_buzz(group, correct)
     # Kein explizites st.experimental_rerun() – der Callback führt ohnehin zu einem Neulauf
 
+# Neuer Callback, um in der Buzzerrunde zur nächsten Frage zu gehen,
+# falls keine Gruppe geantwortet hat.
+def skip_buzz_question_callback():
+    if len(quiz_game.buzz_answers) == 0:
+        next_round_callback()
+
 # -------------------------------------
 # Streamlit-App
 # -------------------------------------
@@ -223,6 +229,11 @@ else:
                     antwort = "richtig" if quiz_game.buzz_answers[group] else "falsch"
                     st.write(f"{group} hat bereits {antwort} geantwortet.")
 
+            # Falls bisher keine Gruppe geantwortet hat, wird ein Button angezeigt,
+            # der den Moderator ermöglicht, die Frage zu überspringen.
+            if len(quiz_game.buzz_answers) == 0:
+                st.button("Keine Antwort? Zur nächsten Frage", on_click=skip_buzz_question_callback)
+
             # Sobald alle Gruppen geantwortet haben, wird die Antwort angezeigt und "Nächste Runde" freigegeben.
             if len(quiz_game.buzz_answers) == len(quiz_game.groups):
                 st.write(f"**Antwort:** {q['answer']} (ID {q['id']})")
@@ -258,3 +269,4 @@ else:
 # Wenn keine Fragen mehr vorhanden
 if st.session_state.get('no_more_questions'):
     st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
+
