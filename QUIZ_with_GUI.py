@@ -1,6 +1,23 @@
 import streamlit as st
 import random
 
+# CSS für einen festen Footer in der Sidebar
+st.markdown(
+    """
+    <style>
+    [data-testid="stSidebar"] .fixed-footer {
+        position: fixed;
+        bottom: 0;
+        width: 230px;  /* Passe die Breite nach Bedarf an */
+        background-color: #f0f2f6;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # -------------------------------------
 # Funktion zum Laden der Fragen aus der Textdatei
 # -------------------------------------
@@ -87,7 +104,7 @@ class QuizGame:
             self.scores[group] += 6
         else:
             self.scores[group] -= 6
-        # Statt zu prüfen, ob die Gruppe bereits geantwortet hat, wird jeder Buzz hinzugefügt.
+        # Jeder Buzz wird als neue Antwort hinzugefügt
         if group in self.buzz_answers:
             self.buzz_answers[group].append(correct)
         else:
@@ -149,12 +166,12 @@ def other_group_wrong_callback(group):
     quiz_game.scores[group] -= 1
 
 def buzz_answer_callback(group, correct):
-    # Hier wird KEIN Check gemacht, ob die Gruppe bereits geantwortet hat.
-    # Somit wird auch bei wiederholtem Buzz durch dieselbe Gruppe erneut Punkte vergeben.
+    # Hier erfolgt KEINE Prüfung, ob die Gruppe schon geantwortet hat – jeder Buzz zählt.
     quiz_game.answer_buzz(group, correct)
     st.session_state.buzzed_group = group
 
-# Skip-Funktion in der Buzzerrunde: wechselt zur nächsten Frage, wenn keine Gruppe ausgewählt oder keine Antwort registriert wurde.
+# Skip-Funktion in der Buzzerrunde: wechselt zur nächsten Frage,
+# wenn entweder keine Gruppe ausgewählt oder keine Antwort registriert wurde.
 def skip_buzz_question_callback():
     if not st.session_state.get("buzzed_group", "") or not quiz_game.buzz_answers:
         next_round_callback()
@@ -168,6 +185,7 @@ def skip_normal_question_callback():
 # -------------------------------------
 st.title("Quiz Spiel")
 
+# Sidebar: Oben erscheint weiterhin der statische Bereich "Aktuelle Frage & Antwort"
 with st.sidebar:
     st.header("Aktuelle Frage & Antwort")
     if 'current_question' in st.session_state:
@@ -178,6 +196,7 @@ with st.sidebar:
     else:
         st.write("Zurzeit keine aktive Frage.")
 
+# Hauptbereich bzw. Spielsteuerung
 if 'quiz_game' not in st.session_state:
     st.session_state.quiz_game = QuizGame()
 quiz_game = st.session_state.quiz_game
@@ -197,7 +216,7 @@ else:
         q = st.session_state.current_question
         st.write(f"**Frage (ID {q['id']}):** {q['question']}")
 
-        # Buzzerrunde: Auswahl der buzzenden Gruppe erfolgt extern per Dropdown.
+        # Buzzerrunde: Es erfolgt extern (über Dropdown) die Auswahl der buzzenden Gruppe.
         if quiz_game.current_category == "Buzzerrunde":
             st.write("**Buzzerrunde:** Wähle die Gruppe, die als Erste buzzert hat.")
             if "buzzed_group" not in st.session_state:
@@ -213,7 +232,6 @@ else:
             else:
                 st.write("Noch keine Gruppe ausgewählt.")
 
-            # Falls noch keine Antwort registriert wurde, kann der Moderator die Frage überspringen.
             if not quiz_game.buzz_answers:
                 st.button("Keine Antwort? Zur nächsten Frage", on_click=skip_buzz_question_callback)
             else:
@@ -250,3 +268,15 @@ else:
 
 if st.session_state.get('no_more_questions'):
     st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
+
+# Fester Footer in der Sidebar: Rangliste und aktuelle Frage
+with st.sidebar:
+    st.markdown('<div class="fixed-footer">', unsafe_allow_html=True)
+    st.markdown("### Aktuelle Rangliste")
+    for group, score in quiz_game.scores.items():
+        st.write(f"{group}: {score} Punkte")
+    if 'current_question' in st.session_state:
+        q = st.session_state.current_question
+        st.markdown("### Aktuelle Frage")
+        st.write(f"**Frage (ID {q['id']}):** {q['question']}")
+    st.markdown('</div>', unsafe_allow_html=True)
