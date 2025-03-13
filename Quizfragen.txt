@@ -18,26 +18,6 @@ Antwort: Schloss Etelsen
 Wie viele für die Binnenschifffahrt taugliche Flüsse gibt es im Landkreis?
 Antwort: 2, Weser und Aller
 
-Kategorie: Fehmarn
-Welche Fähre verbindet Fehmarn und mit Dänemark?
-Antwort: Die Scandlines-Fähre
-Zu welchem Bundesland gehört Fehmarn?
-Antwort: Schleswig-Holstein
-Wie heißt der größte Ort auf Fehmarn?
-Antwort: Burg auf Fehmarn
-Wie heißt die Brücke, die Fehmarn mit dem Festland verbindet?
-Antwort: Fehmarnsundbrücke 
-Welcher Feuerwehrverband ist für Fehmarn zuständig?
-Antwort: Kreisfeuerwehrverband Ostholstein
-Welche zwei Orte verbindet die Fehmarnsundbrücke?
-Antwort: Großenbrode (Festland) und Avendorf (Fehmarn)
-Welche beiden Länder werden durch den geplanten Fehmarnbelt-Tunnel verbunden?
-Antwort: Deutschland und Dänemark
-In welchem Meer liegt Fehmarn?
-Antwort: Ostsee
-Warum gibt es auf Fehmarn keine Berufsfeuerwehr?
-Antwort: Wegen der geringen Einwohnerzahl – die Freiwillige Feuerwehr übernimmt den Brandschutz
-
 Kategorie: Automarken Logos
 Bild 1
 Antwort: Cadillac
@@ -77,6 +57,26 @@ Lied 8
 Antwort: End of Beginning
 Lied 9
 Antwort: Anti-Hero
+
+Kategorie: Fehmarn
+Welche Fähre verbindet Fehmarn und mit Dänemark?
+Antwort: Die Scandlines-Fähre
+Zu welchem Bundesland gehört Fehmarn?
+Antwort: Schleswig-Holstein
+Wie heißt der größte Ort auf Fehmarn?
+Antwort: Burg auf Fehmarn
+Wie heißt die Brücke, die Fehmarn mit dem Festland verbindet?
+Antwort: Fehmarnsundbrücke 
+Welcher Feuerwehrverband ist für Fehmarn zuständig?
+Antwort: Kreisfeuerwehrverband Ostholstein
+Welche zwei Orte verbindet die Fehmarnsundbrücke?
+Antwort: Großenbrode (Festland) und Avendorf (Fehmarn)
+Welche beiden Länder werden durch den geplanten Fehmarnbelt-Tunnel verbunden?
+Antwort: Deutschland und Dänemark
+In welchem Meer liegt Fehmarn?
+Antwort: Ostsee
+Warum gibt es auf Fehmarn keine Berufsfeuerwehr?
+Antwort: Wegen der geringen Einwohnerzahl – die Freiwillige Feuerwehr übernimmt den Brandschutz
 
 Kategorie: Buzzerrunde
 Wie viele Liter fasst ein olympisches Schwimmbecken?
