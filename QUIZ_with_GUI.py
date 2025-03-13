@@ -1,9 +1,22 @@
 import streamlit as st
 import random
 
-# (Optional: Entferne oder passe CSS an, falls keine feste Positionierung mehr benötigt wird)
-# Falls du kein Fixed-Layout in der Sidebar mehr möchtest, kann der CSS-Block entfallen.
-# Falls gewünscht, kann hier weiteres CSS ergänzt werden.
+# CSS kann entfernt oder angepasst werden, da der Footer nicht mehr benötigt wird
+# st.markdown(
+#     """
+#     <style>
+#     [data-testid="stSidebar"] .fixed-footer {
+#         position: fixed;
+#         bottom: 0;
+#         width: 230px;
+#         background-color: #f0f2f6;
+#         padding: 10px;
+#         border-top: 1px solid #ddd;
+#     }
+#     </style>
+#     """,
+#     unsafe_allow_html=True
+# )
 
 # -------------------------------------
 # Funktion zum Laden der Fragen aus der Textdatei
@@ -179,6 +192,17 @@ def skip_normal_question_callback():
 # -------------------------------------
 st.title("Quiz Spiel")
 
+# Sidebar: Aktuelle Frage & Antwort
+with st.sidebar:
+    st.header("Aktuelle Frage & Antwort")
+    if 'current_question' in st.session_state:
+        q = st.session_state.current_question
+        st.write(f"**Frage (ID {q['id']}):** {q['question']}")
+        st.write(f"**Antwort (ID {q['id']}):** {q['answer']}")
+        st.write("Die Frage-ID und Antwort-ID stimmen überein.")
+    else:
+        st.write("Zurzeit keine aktive Frage.")
+
 # Hauptbereich bzw. Spielsteuerung
 if 'quiz_game' not in st.session_state:
     st.session_state.quiz_game = QuizGame()
@@ -207,4 +231,48 @@ else:
             selected_group = st.selectbox("Welche Gruppe hat gebuzzert?", [""] + quiz_game.groups, key="buzzed_group")
             if selected_group:
                 st.write(f"{selected_group} hat gebuzzert. Bitte wähle, ob die Antwort richtig oder falsch war.")
-            
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.button("Richtig", key=f"{selected_group}_r", on_click=buzz_answer_callback, args=(selected_group, True))
+                with col2:
+                    st.button("Falsch", key=f"{selected_group}_f", on_click=buzz_answer_callback, args=(selected_group, False))
+            else:
+                st.write("Noch keine Gruppe ausgewählt.")
+
+            if not quiz_game.buzz_answers:
+                st.button("Keine Antwort? Zur nächsten Frage", on_click=skip_buzz_question_callback)
+            else:
+                st.write(f"**Antwort:** {q['answer']} (ID {q['id']})")
+                st.button("Nächste Runde", on_click=next_round_callback)
+
+        # Normaler Spielmodus
+        else:
+            st.write(f"(Antwort (ID {q['id']}))")
+            if st.session_state.get('answered_correctly') is None:
+                col1, col2, col_skip = st.columns(3)
+                with col1:
+                    st.button("Richtig", key="correct", on_click=answer_correct_callback)
+                with col2:
+                    st.button("Falsch", key="wrong", on_click=answer_wrong_callback)
+                with col_skip:
+                    st.button("Keine Antwort? Überspringen", on_click=skip_normal_question_callback)
+            if st.session_state.get('show_answer', False):
+                st.write(f"**Antwort:** {q['answer']} (ID {q['id']})")
+                if st.session_state.get('answered_correctly') == False:
+                    st.write("Andere Gruppen können jetzt antworten:")
+                    for group in quiz_game.groups:
+                        if group != quiz_game.groups[quiz_game.current_group_index]:
+                            col_r, col_f = st.columns(2)
+                            with col_r:
+                                st.button(f"{group} (Richtig)", on_click=lambda grp=group: other_group_correct_callback(grp))
+                            with col_f:
+                                st.button(f"{group} (Falsch)", on_click=lambda grp=group: other_group_wrong_callback(grp))
+                st.button("Nächste Runde", on_click=next_round_callback)
+
+    st.write("**Punktestände:**")
+    for group, score in quiz_game.scores.items():
+        st.write(f"{group}: {score} Punkte")
+
+if st.session_state.get('no_more_questions'):
+    st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
+
