@@ -10,7 +10,7 @@ st.markdown(
         top: 20px;
         right: 20px;
         width: 180px;
-        background-color: #ffffff;
+        background-color: #ff0e1117;
         padding: 10px;
         border: 1px solid #ddd;
         z-index: 1000;
@@ -293,4 +293,3 @@ if st.session_state.get('no_more_questions'):
 
 # Fixierten Ranglistenbereich anzeigen (immer sichtbar, auch beim Scrollen)
 display_fixed_ranking()
-
