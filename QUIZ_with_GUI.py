@@ -27,6 +27,7 @@ def load_questions(filename):
     current_category = None
     question_id = 1
     question_lines = []  # Puffer für die Zeilen der aktuellen Frage
+    buzz_round_counter = 0  # Zähler für Buzzerrunden
 
     with open(filename, 'r', encoding='utf-8') as file:
         for line in file:
@@ -34,9 +35,14 @@ def load_questions(filename):
             
             # 1) Kategorie-Wechsel
             if line.startswith("Kategorie:"):
-                current_category = line.split(":", 1)[1].strip()
-                if current_category not in categories:
-                    categories.append(current_category)
+                new_category = line.split(":", 1)[1].strip()
+                # Wenn das erste Wort "Buzzerrunde" lautet, wird ein Zähler hinzugefügt
+                if new_category.split()[0].lower() == "buzzerrunde":
+                    buzz_round_counter += 1
+                    current_category = f"Buzzerrunde {buzz_round_counter}"
+                else:
+                    current_category = new_category
+                categories.append(current_category)
 
             # 2) Antwort-Zeile
             elif line.startswith("Antwort:"):
@@ -50,7 +56,7 @@ def load_questions(filename):
                         "category": current_category
                     })
                     question_id += 1
-                question_lines = []
+                question_lines = []  # Puffer zurücksetzen
 
             # 3) Zeile als Teil der Frage
             else:
@@ -93,8 +99,9 @@ class QuizGame:
         if available_questions:
             self.current_question = random.choice(available_questions)
             self.used_questions.append(self.current_question)
-            if self.current_category == "Buzzerrunde":
-                self.buzz_answers = {}  # Alle Buzzes für diese Frage zurücksetzen
+            # Falls es sich um eine Buzzerrunde handelt, werden alle Buzzes zurückgesetzt
+            if self.current_category.lower().startswith("buzzerrunde"):
+                self.buzz_answers = {}
             return self.current_question
         return None
 
@@ -216,8 +223,8 @@ else:
         q = st.session_state.current_question
         st.write(f"**Frage (ID {q['id']}):** {q['question']}")
 
-        # Buzzerrunde: Es erfolgt extern (über Dropdown) die Auswahl der buzzenden Gruppe.
-        if quiz_game.current_category == "Buzzerrunde":
+        # Buzzerrunde: Auswahl der buzzenden Gruppe (Dropdown)
+        if quiz_game.current_category.lower().startswith("buzzerrunde"):
             st.write("**Buzzerrunde:** Wähle die Gruppe, die als Erste buzzert hat.")
             if "buzzed_group" not in st.session_state:
                 st.session_state.buzzed_group = ""
