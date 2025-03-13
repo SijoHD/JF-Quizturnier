@@ -1,4 +1,44 @@
-Kategorie: Buzzerrunde
+Kategorie: Erdkunde Landkreis Verden
+Wie viele Gemeinden sind Teil des Landkreises Verden?
+Antwort: 11, 7 Einheitsgemeinden und 4 Samtgemeinden
+Wo liegt die höchste natürliche Erhebung im Landkreis Verden?
+Antwort: Der Steinberg im Verdener Stadtteil Walle
+Welche Gemeinde ist die größte des Landkreises, nach Einwohnern?
+Antwort: Achim
+Welche Flüssen fließen durch den Landkreis?
+Antwort: Wümme, Weser
+An welche Landkreise grenzt der Landkreis Verden?
+Antwort: Osterholz, Rotenburg (Wümme), Heidekreis, Nienburg/Weser und Diepholz (alle in Niedersachsen) sowie an die Stadtgemeinde Bremen (Land Freie Hansestadt Bremen).
+Wie viele Naturschutzgebiete gibt es im Landkreis Verden?
+Antwort: 12
+Woraus besteht das Wappen des Landkreises?
+Antwort: In Blau ein goldener Wellenbalken, darüber ein springendes silbernes Pferd, unten aus dem Schildrand wachsend drei goldene Ähren, gefächert, die beiden äußeren mit je einem Blatt.
+Welches Schloss liegt in der Gemeinde Langwedel?
+Antwort: Schloss Etelsen
+Wie viele für die Binnenschifffahrt taugliche Flüsse gibt es im Landkreis?
+Antwort: 2, Weser und Aller
+
+Kategorie: Fehmarn
+Welche Fähre verbindet Fehmarn und mit Dänemark?
+Antwort: Die Scandlines-Fähre
+Zu welchem Bundesland gehört Fehmarn?
+Antwort: Schleswig-Holstein
+Wie heißt der größte Ort auf Fehmarn?
+Antwort: Burg auf Fehmarn
+Wie heißt die Brücke, die Fehmarn mit dem Festland verbindet?
+Antwort: Fehmarnsundbrücke 
+Welcher Feuerwehrverband ist für Fehmarn zuständig?
+Antwort: Kreisfeuerwehrverband Ostholstein
+Welche zwei Orte verbindet die Fehmarnsundbrücke?
+Antwort: Großenbrode (Festland) und Avendorf (Fehmarn)
+Welche beiden Länder werden durch den geplanten Fehmarnbelt-Tunnel verbunden?
+Antwort: Deutschland und Dänemark
+In welchem Meer liegt Fehmarn?
+Antwort: Ostsee
+Warum gibt es auf Fehmarn keine Berufsfeuerwehr?
+Antwort: Wegen der geringen Einwohnerzahl – die Freiwillige Feuerwehr übernimmt den Brandschutz
+
+Kategorie: Automarken Logos
 Bild 1
 Antwort: Cadillac
 Welche Automarke wird durch einen diamantenförmigen Rhombus repräsentiert?
@@ -18,6 +58,86 @@ Antwort: Opel
 Bild 9
 Antwort: Polestar
 
+Buzzerrunde
+Lied 1
+Antwort: Bohemian Rhapsody
+Lied 2
+Antwort: Hotel California
+Lied 3
+Antwort: Bad Guy
+Lied 4
+Antwort: Blinding Lights
+Lied 5
+Antwort: Drivers License
+Lied 6
+Antwort: Sweet Child O' Mine
+Lied 7
+Antwort: Billie Jean
+Lied 8
+Antwort: End of Beginning
+Lied 9
+Antwort: Anti-Hero
+
+Kategorie: Buzzerrunde
+Wie viele Liter fasst ein olympisches Schwimmbecken?
+Antwort: 2.500.000 
+Wie viele Sekunden dauert eine Woche?
+Antwort: 604.800
+Wie viele Buchstaben hat das längste deutsche Wort ohne Bindestriche?
+Antwort: 79, „Rindfleischetikettierungsüberwachungsaufgabenübertragungsgesetz“
+Wie viele Atome enthält ein Wassertropfen mit 0,05 ml?
+Antwort: ca. 1,67 Trillionen = 1,67 × 10²¹ Atome
+Wie hoch ist viel Kraftfahrzeuge und Anhänger sind in Deutschland zugelassen (zum 01.01.2024)?
+Antwort: 69,1 Millionen
+Wie viele Seiten hat die gesamte Harry Potter Reihe in der deutschen Version?
+Antwort: 4192
+Bei welcher Zeit liegt der Weltrekord im Dauer-Fernsehgucken aus 2016?
+Antwort: 95 Stunden
+Wie hoch ist der Weltrekord für die schnellste Geschwindigkeit auf einer Wasserrutsche?
+Antwort: 91,43 Km/h
+Aus wie vielen Metern höre hat Derek Herron, bei seinem Weltrekord, mit einem Basketball den Korb getroffen? 
+Antwort: 180,968m
+
+Kategorie: Sprichwörter beenden
+Wer nicht wagt,...
+Antwort: ...der nicht gewinnt
+Wer rastet, der...
+Antwort: rostet
+Der Teufel steckt...
+Antwort: ...im Detail
+Die Axt im Haus...
+Antwort: erspart den Zimmermann
+Ist die Katze aus dem Haus...
+Antwort: Tanzen die Mäuse auf den Tischen.
+Kindermund tut...
+Antwort: Warheit kund
+Man muss das Eisen schmieden,...
+Antwort: ...so lange es heiß ist
+Wo kein Kläger,...
+Antwort: ...da kein Richter
+Da liegt der Hase...
+Antwort: ...im Pfeffer
+
+Kategorie: Gaming
+Welcher klassische Nintendo-Bösewicht taucht immer wieder auf, um Prinzessin Peach zu entführen?
+Antwort: Bowser
+Welches Spiel hat den Rekord für die meisten Spieler gleichzeitig auf Steam?
+Antwort: Counter-Strike
+Nenne einen der drei Hauptcharakter in GTA V?
+Antwort: Michael/Franklin/Trevor
+Wie heißt das Spiel, in dem man mit Google Street View herausfinden muss, wo man ist?
+Antwort: Geoguessr
+Wer ist Namensgeber von Rainbow Six und Ghost Recon?
+Antwort: Tom Clancy
+Wie heißt die oberste Ebene der Welt, über der Oberfläche in Terraria?
+Antwort: Weltraum
+Wie heißt die zweite Map von Among Us?
+Antwort: Mira HQ
+Was für ein Block in Minecraft wird oft gemined um XP zu erhalten? Nether…?
+Antwort: Quarz
+Wie wird Markus Alexej Persson noch genannt (Minecraft)
+Antwort: Notch
+
 Kategorie: Kinderserien
 Lied 1
 Antwort: Ducktales
@@ -31,8 +151,6 @@ Lied 5
 Antwort: Phineas und Ferb
 Welche Serie handelt von einem Feuerwehrmann in Pontypandy?
 Antwort: Feuerwehrmann Sam
-Welcher Planet wird als „Roter Planet“ bezeichnet?
-Antwort: Mars
 Welche Serie erzählt von den Abenteuern eines kleinen Mädchens und ihrem Freund, dem Bären?
 Antwort: Masha und der Bär
 Wie lautet der Titel der deutschen Fernsehserie, in der ein fiktives Unternehmen, benannt nach einer weihnachtlichen Ikone, im Mittelpunkt steht?
@@ -59,23 +177,21 @@ Wer ist der aktuelle Verteidigungsminister
 Antwort: Boris Pistorius (SPD)
 
 Kategorie: Mythologie & Sagen
-Wer war der Göttervater in der griechischen Mythologie?
-Antwort: Zeus
-Wie heißt der Gott des Krieges in der römischen Mythologie?
-Antwort: Mars
-Welche mythologische Kreatur hat den Kopf eines Menschen und den Körper eines Pferdes?
-Antwort: Zentaur
-Wer ist der Herrscher der Unterwelt in der griechischen Mythologie?
-Antwort: Hades
-Wie heißt der Hammer des nordischen Gottes Thor?
-Antwort: Mjölnir
-Welches Fabelwesen kann mit seinem Gesang Seefahrer ins Verderben locken?
-Antwort: Sirene
-Welcher Held tötete das Minotaurus in der griechischen Mythologie?
-Antwort: Theseus
-Wie heißt die Stadt der Götter in der nordischen Mythologie?
-Antwort: Asgard
-Wer gilt in der ägyptischen Mythologie als Herrscher der Unterwelt?
-Antwort: Osiris
-Welches Fabelwesen spuckt Feuer und bewacht Schätze?
-Antwort: Drache
+Bild 1
+Antwort: Blender
+Bild 2
+Antwort: Bierden
+Bild 3
+Antwort: Walle
+Bild 4
+Antwort: Verden
+Bild 5
+Antwort: Fischerhude-Quelkhorn
+Bild 6
+Antwort: Thedinghausen
+Bild 7
+Antwort: Nedden
+Bild 8
+Antwort: Völkersen
+Bild 9
+Antwort: Dauelsen
