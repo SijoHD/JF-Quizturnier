@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-# CSS für den fixierten Ranglistenbereich (oben rechts)
+# CSS für den fixierten Ranglistenbereich (oben rechts) – schmaler und mit angepasster Hintergrundfarbe
 st.markdown(
     """
     <style>
@@ -9,8 +9,8 @@ st.markdown(
         position: fixed;
         top: 20px;
         right: 20px;
-        width: 250px;
-        background-color: #f0f2f6;
+        width: 180px;
+        background-color: #ffffff;
         padding: 10px;
         border: 1px solid #ddd;
         z-index: 1000;
