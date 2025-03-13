@@ -1,22 +1,24 @@
 import streamlit as st
 import random
 
-# CSS kann entfernt oder angepasst werden, da der Footer nicht mehr benötigt wird
-# st.markdown(
-#     """
-#     <style>
-#     [data-testid="stSidebar"] .fixed-footer {
-#         position: fixed;
-#         bottom: 0;
-#         width: 230px;
-#         background-color: #f0f2f6;
-#         padding: 10px;
-#         border-top: 1px solid #ddd;
-#     }
-#     </style>
-#     """,
-#     unsafe_allow_html=True
-# )
+# CSS für den fixierten Ranglistenbereich (oben rechts)
+st.markdown(
+    """
+    <style>
+    .fixed-ranking {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 250px;
+        background-color: #f0f2f6;
+        padding: 10px;
+        border: 1px solid #ddd;
+        z-index: 1000;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # -------------------------------------
 # Funktion zum Laden der Fragen aus der Textdatei
@@ -188,8 +190,21 @@ def skip_normal_question_callback():
     next_round_callback()
 
 # -------------------------------------
+# Funktion für die fixierte Rangliste
+# -------------------------------------
+def display_fixed_ranking():
+    # Falls das Spiel noch nicht gestartet wurde, gib nichts aus
+    if 'quiz_game' in st.session_state:
+        ranking_html = "<div class='fixed-ranking'><h3>Aktuelle Rangliste</h3>"
+        for group, score in quiz_game.scores.items():
+            ranking_html += f"<p>{group}: {score} Punkte</p>"
+        ranking_html += "</div>"
+        st.markdown(ranking_html, unsafe_allow_html=True)
+
+# -------------------------------------
 # Streamlit-App
 # -------------------------------------
+
 st.title("Quiz Spiel")
 
 # Sidebar: Aktuelle Frage & Antwort
@@ -275,4 +290,7 @@ else:
 
 if st.session_state.get('no_more_questions'):
     st.write("Das Spiel ist zu Ende! Alle Fragen wurden gestellt.")
+
+# Fixierten Ranglistenbereich anzeigen (immer sichtbar, auch beim Scrollen)
+display_fixed_ranking()
 
