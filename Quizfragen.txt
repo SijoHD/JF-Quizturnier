@@ -38,7 +38,7 @@ Antwort: Opel
 Bild 9
 Antwort: Polestar
 
-Kategorie: Buzzerrunde
+Kategorie: Buzzerrunde Musik
 Lied 1
 Antwort: Bohemian Rhapsody
 Lied 2
@@ -78,7 +78,7 @@ Antwort: Ostsee
 Warum gibt es auf Fehmarn keine Berufsfeuerwehr?
 Antwort: Wegen der geringen Einwohnerzahl – die Freiwillige Feuerwehr übernimmt den Brandschutz
 
-Kategorie: Buzzerrunde
+Kategorie: Buzzerrunde Schätzfragen
 Wie viele Liter fasst ein olympisches Schwimmbecken?
 Antwort: 2.500.000 
 Wie viele Sekunden dauert eine Woche?
