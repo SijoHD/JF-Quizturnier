@@ -3,10 +3,8 @@ Wie viele Gemeinden sind Teil des Landkreises Verden?
 Antwort: 11, 7 Einheitsgemeinden und 4 Samtgemeinden
 Wo liegt die höchste natürliche Erhebung im Landkreis Verden?
 Antwort: Der Steinberg im Verdener Stadtteil Walle
-Welche Gemeinde ist die größte des Landkreises, nach Einwohnern?
+Welche Gemeinde/Stadt ist die größte des Landkreises, nach Einwohnern?
 Antwort: Achim
-Welche Flüssen fließen durch den Landkreis?
-Antwort: Wümme, Weser
 An welche Landkreise grenzt der Landkreis Verden?
 Antwort: Osterholz, Rotenburg (Wümme), Heidekreis, Nienburg/Weser und Diepholz (alle in Niedersachsen) sowie an die Stadtgemeinde Bremen (Land Freie Hansestadt Bremen).
 Wie viele Naturschutzgebiete gibt es im Landkreis Verden?
@@ -176,7 +174,7 @@ Antwort: Willy Brandt
 Wer ist der aktuelle Verteidigungsminister
 Antwort: Boris Pistorius (SPD)
 
-Kategorie: Mythologie & Sagen
+Kategorie: Feuerwehrhäuser
 Bild 1
 Antwort: Blender
 Bild 2
