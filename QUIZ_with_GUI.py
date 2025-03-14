@@ -224,7 +224,7 @@ if 'quiz_game' not in st.session_state:
 quiz_game = st.session_state.quiz_game
 
 if 'game_started' not in st.session_state:
-    st.session_state.num_groups = st.number_input("Anzahl der Gruppen (1-6):", min_value=1, max_value=6, value=1)
+    st.session_state.num_groups = st.number_input("Anzahl der Gruppen (1-7):", min_value=1, max_value=7, value=1)
     st.button("Spiel starten", on_click=start_game_callback)
 else:
     st.write(f"Aktuelle Gruppe: {quiz_game.groups[quiz_game.current_group_index]}")
