@@ -1,195 +1,98 @@
-Kategorie: Erdkunde Landkreis Verden
-Wie viele Gemeinden sind Teil des Landkreises Verden?
-Antwort: 11, 7 Einheitsgemeinden und 4 Samtgemeinden
-Wo liegt die höchste natürliche Erhebung im Landkreis Verden?
-Antwort: Der Steinberg im Verdener Stadtteil Walle
-Welche Gemeinde/Stadt ist die größte des Landkreises, nach Einwohnern?
-Antwort: Achim
-An welche Landkreise grenzt der Landkreis Verden?
-Antwort: Osterholz, Rotenburg (Wümme), Heidekreis, Nienburg/Weser und Diepholz (alle in Niedersachsen) sowie an die Stadtgemeinde Bremen (Land Freie Hansestadt Bremen).
-Wie viele Naturschutzgebiete gibt es im Landkreis Verden?
-Antwort: 12
-Woraus besteht das Wappen des Landkreises?
-Antwort: In Blau ein goldener Wellenbalken, darüber ein springendes silbernes Pferd, unten aus dem Schildrand wachsend drei goldene Ähren, gefächert, die beiden äußeren mit je einem Blatt.
-Welches Schloss liegt in der Gemeinde Langwedel?
-Antwort: Schloss Etelsen
-Wie viele für die Binnenschifffahrt taugliche Flüsse gibt es im Landkreis?
-Antwort: 2, Weser und Aller
+Kategorie: Sport
+Welches Land hat die meisten Fußball-Weltmeisterschaften der Männer gewonnen? 
+Antwort: Brasilien (Quelle: FIFA)
+Wie viele Spieler stehen bei einem offiziellen Basketballspiel pro Team gleichzeitig auf dem Feld? 
+Antwort: 5 (Quelle: FIBA)
+Wie viele Minuten dauert eine reguläre Eishockey-Periode in der NHL? 
+Antwort: 20 Minuten (Quelle: NHL)
+Wie viele Spieler hat ein Team im Handball auf dem Spielfeld? 
+Antwort: 7 (Quelle: IHF)
+Welcher Sport verwendet die Begriffe „Love“ und „Deuce“? Antwort: Tennis (Quelle: ITF)
+Wie viele Ringe sind auf der olympischen Flagge abgebildet? 
+Antwort: 5 (Quelle: IOC)
+Welcher deutsche Fußballverein hat die meisten Bundesliga-Titel gewonnen? 
+Antwort: FC Bayern München (Quelle: DFB)
+In welchem Sport wird der „Puck“ verwendet? 
+Antwort: Eishockey (Quelle: IIHF)
+Wie viele Spieler hat eine Rugby-Union-Mannschaft auf dem Feld? 
+Antwort: 15 (Quelle: World Rugby)
+In welchem Sport geht es um die Kombination von Skilanglauf und Schießen? Antwort: Biathlon (Quelle: IBU)
 
-Kategorie: Automarken Logos
-Bild 1
-Antwort: Cadillac
-Welche Automarke wird durch einen diamantenförmigen Rhombus repräsentiert?
-Antwort: Renault
-Bild 3
-Antwort: Sachsenring
-Welche japanische Automarke zeigt ein ovales Emblem mit einem stilisierten "T"?
-Antwort: Toyota
-Bild 5
-Antwort: Jaguar
-Welche deutsche Automarke hat ein rundes, blau-weißes Emblem, das an einen Propeller erinnert?
-Antwort: BMW
-Bild 7
-Antwort: Chevrolet
-Welche Automarke hat einen Blitz als Logo?
-Antwort: Opel
-Bild 9
-Antwort: Polestar
+Kategorie: Feuerwehr
+Welches Fahrzeug gehört zur Grundausstattung der Feuerwehr und dient hauptsächlich zum Löschen von Bränden? Antwort: Löschfahrzeug (LF) (Quelle: DIN-Normen der Feuerwehr)
+Welche Aufgabe hat eine Drehleiter im Feuerwehreinsatz? Antwort: Zugang zu Höhen ermöglichen und Personenrettung (Quelle: Feuerwehr-Ausbildungsbücher)
+Welche persönliche Schutzausrüstung trägt ein Feuerwehrmann? Antwort: Helm, Schutzkleidung, Handschuhe, Stiefel und Atemschutzgerät (Quelle: Feuerwehr-Leitfaden)
+Wie nennt man den Feuerwehrmann, der speziell für den Umgang mit Gefahrstoffen ausgebildet ist? Antwort: Gefahrgutbeauftragter (Quelle: Feuerwehr-Ausbildung)
+Was versteht man unter „Brandbekämpfung“? Antwort: Das Löschen von Feuer zur Rettung von Leben und Sachwerten (Quelle: Feuerwehr-Grundausbildung)
+Wie nennt man den standardisierten Alarmierungsdienst der Feuerwehr? Antwort: Alarmierungsplan (Quelle: Feuerwehr-Dokumente)
+Welcher Feuerwehreinsatz nutzt Wasserwerfer, um Feuer mit Hochdruckwasser zu bekämpfen? Antwort: Hochdruck-Brandeinsätze (Quelle: Feuerwehrtechnik)
+Welche Schutzausrüstung ist besonders wichtig beim Einsatz in verrauchten Räumen? Antwort: Atemschutzgerät (Quelle: Feuerwehr-Richtlinien)
+Wie nennt man den Einsatz zur technischen Rettung aus großer Höhe? Antwort: Höhenrettung (Quelle: Feuerwehr-Ausbildung)
+Welches Gerät verwendet die Feuerwehr, um in verrauchten oder dunklen Bereichen Personen zu orten? Antwort: Wärmebildkamera (Quelle: Feuerwehr-Technik)
 
-Kategorie: Buzzerrunde Musik
-Lied 1
-Antwort: Bohemian Rhapsody
-Lied 2
-Antwort: Hotel California
-Lied 3
-Antwort: Bad Guy
-Lied 4
-Antwort: Blinding Lights
-Lied 5
-Antwort: Drivers License
-Lied 6
-Antwort: Sweet Child O' Mine
-Lied 7
-Antwort: Billie Jean
-Lied 8
-Antwort: End of Beginning
-Lied 9
-Antwort: Anti-Hero
+Kategorie: Hauptstädte
+Was ist die Hauptstadt von Deutschland? Antwort: Berlin (Quelle: Bundesregierung)
+Was ist die Hauptstadt von Frankreich? Antwort: Paris (Quelle: Französisches Fremdenverkehrsamt)
+Was ist die Hauptstadt von Italien? Antwort: Rom (Quelle: Italienisches Außenministerium)
+Was ist die Hauptstadt von Spanien? Antwort: Madrid (Quelle: Spanische Tourismusorganisation)
+Was ist die Hauptstadt von Kanada? Antwort: Ottawa (Quelle: Regierung von Kanada)
+Was ist die Hauptstadt von Australien? Antwort: Canberra (Quelle: Australische Regierung)
+Was ist die Hauptstadt von Japan? Antwort: Tokio (Quelle: Japanisches Außenministerium)
+Was ist die Hauptstadt von Brasilien? Antwort: Brasília (Quelle: Brasilianisches Außenministerium)
+Was ist die Hauptstadt von Indien? Antwort: Neu-Delhi (Quelle: Indische Regierung)
+Was ist die Hauptstadt von Russland? Antwort: Moskau (Quelle: Russisches Außenministerium)
 
-Kategorie: Fehmarn
-Welche Fähre verbindet Fehmarn und mit Dänemark?
-Antwort: Die Scandlines-Fähre
-Zu welchem Bundesland gehört Fehmarn?
-Antwort: Schleswig-Holstein
-Wie heißt der größte Ort auf Fehmarn?
-Antwort: Burg auf Fehmarn
-Wie heißt die Brücke, die Fehmarn mit dem Festland verbindet?
-Antwort: Fehmarnsundbrücke 
-Welcher Feuerwehrverband ist für Fehmarn zuständig?
-Antwort: Kreisfeuerwehrverband Ostholstein
-Welche zwei Orte verbindet die Fehmarnsundbrücke?
-Antwort: Großenbrode (Festland) und Avendorf (Fehmarn)
-Welche beiden Länder werden durch den geplanten Fehmarnbelt-Tunnel verbunden?
-Antwort: Deutschland und Dänemark
-In welchem Meer liegt Fehmarn?
-Antwort: Ostsee
-Warum gibt es auf Fehmarn keine Berufsfeuerwehr?
-Antwort: Wegen der geringen Einwohnerzahl – die Freiwillige Feuerwehr übernimmt den Brandschutz
+Kategorie: Filme erraten
+In welchem Film kämpft ein junger Zauberer gegen den dunklen Lord Voldemort? Antwort: Harry Potter (Quelle: J.K. Rowling – Buchreihe)
+Welcher Animationsfilm handelt von einem Clownfisch, der seinen Sohn sucht? Antwort: Findet Nemo (Quelle: Pixar)
+Welcher Superheld ist bekannt als der dunkle Ritter von Gotham City? Antwort: Batman (Quelle: DC Comics)
+In welchem Film verwandelt sich ein Mann in einen riesigen, grünen Helden? Antwort: Der unglaubliche Hulk (Quelle: Marvel Studios)
+Welcher Film erzählt die Geschichte eines Jungen, der in einer Welt voller Dinosaurier überlebt? Antwort: Jurassic Park (Quelle: Universal Pictures)
+Welcher Film zeigt ein episches Weltraumabenteuer mit der Figur Luke Skywalker? Antwort: Star Wars (Quelle: Lucasfilm)
+Welcher Animationsfilm zeigt sprechende Autos, die Rennen fahren? Antwort: Cars (Quelle: Pixar)
+In welchem Film muss ein Junge einen Drachen zähmen? Antwort: Drachenzähmen leicht gemacht (Quelle: DreamWorks)
+Welcher Film handelt von einem sprechenden Schaf, das Abenteuer erlebt? Antwort: Shaun das Schaf (Quelle: Aardman Animations)
+Welcher Film erzählt die humorvolle Geschichte eines Ritters auf der Suche nach dem Heiligen Gral? Antwort: Monty Python und der Heilige Gral (Quelle: Monty Python)
 
-Kategorie: Buzzerrunde Schätzfragen
-Wie viele Liter fasst ein olympisches Schwimmbecken?
-Antwort: 2.500.000 
-Wie viele Sekunden dauert eine Woche?
-Antwort: 604.800
-Wie viele Buchstaben hat das längste deutsche Wort ohne Bindestriche?
-Antwort: 79, „Rindfleischetikettierungsüberwachungsaufgabenübertragungsgesetz“
-Wie viele Atome enthält ein Wassertropfen mit 0,05 ml?
-Antwort: ca. 1,67 Trillionen = 1,67 × 10²¹ Atome
-Wie hoch ist viel Kraftfahrzeuge und Anhänger sind in Deutschland zugelassen (zum 01.01.2024)?
-Antwort: 69,1 Millionen
-Wie viele Seiten hat die gesamte Harry Potter Reihe in der deutschen Version?
-Antwort: 4192
-Bei welcher Zeit liegt der Weltrekord im Dauer-Fernsehgucken aus 2016?
-Antwort: 95 Stunden
-Wie hoch ist der Weltrekord für die schnellste Geschwindigkeit auf einer Wasserrutsche?
-Antwort: 91,43 Km/h
-Aus wie vielen Metern höre hat Derek Herron, bei seinem Weltrekord, mit einem Basketball den Korb getroffen? 
-Antwort: 180,968m
-
-Kategorie: Sprichwörter beenden
-Wer nicht wagt,...
-Antwort: ...der nicht gewinnt
-Wer rastet, der...
-Antwort: rostet
-Der Teufel steckt...
-Antwort: ...im Detail
-Die Axt im Haus...
-Antwort: erspart den Zimmermann
-Ist die Katze aus dem Haus...
-Antwort: Tanzen die Mäuse auf den Tischen.
-Kindermund tut...
-Antwort: Warheit kund
-Man muss das Eisen schmieden,...
-Antwort: ...so lange es heiß ist
-Wo kein Kläger,...
-Antwort: ...da kein Richter
-Da liegt der Hase...
-Antwort: ...im Pfeffer
+Kategorie: Sehenswürdigkeiten
+Welches berühmte Bauwerk steht in Paris und wurde für die Weltausstellung 1889 errichtet? Antwort: Eiffelturm (Quelle: Französisches Tourismusbüro)
+Welcher antike Ort in Griechenland ist berühmt für den Tempel des Zeus? Antwort: Olympia (Quelle: UNESCO)
+Welche weltberühmte Kirche in Rom ist der Sitz des Papstes? Antwort: Petersdom (Quelle: Vatikan)
+Welches Bauwerk in Indien gilt als Symbol der Liebe? Antwort: Taj Mahal (Quelle: UNESCO)
+Welche historische Festung befindet sich in der deutschen Stadt Nürnberg? Antwort: Nürnberger Burg (Quelle: Bayerische Denkmäler)
+Welches Bauwerk in China ist als längstes Mauerbauwerk der Welt bekannt? Antwort: Chinesische Mauer (Quelle: UNESCO)
+Welcher Wasserfall an der Grenze zwischen den USA und Kanada zählt zu den größten der Welt? Antwort: Niagarafälle (Quelle: National Park Service)
+Welche antike Arena in Rom war Schauplatz blutiger Kämpfe? Antwort: Kolosseum (Quelle: Archäologische Forschungen)
+Welches Schloss in Schottland ist bekannt als Sitz der schottischen Könige? Antwort: Edinburgh Castle (Quelle: Historic Environment Scotland)
+Welcher Wolkenkratzer in den USA war einst das höchste Gebäude der Welt? Antwort: Empire State Building (Quelle: NYC Tourism)
 
 Kategorie: Gaming
-Welcher klassische Nintendo-Bösewicht taucht immer wieder auf, um Prinzessin Peach zu entführen?
-Antwort: Bowser
-Welches Spiel hat den Rekord für die meisten Spieler gleichzeitig auf Steam?
-Antwort: Counter-Strike
-Nenne einen der drei Hauptcharakter in GTA V?
-Antwort: Michael/Franklin/Trevor
-Wie heißt das Spiel, in dem man mit Google Street View herausfinden muss, wo man ist?
-Antwort: Geoguessr
-Wer ist Namensgeber von Rainbow Six und Ghost Recon?
-Antwort: Tom Clancy
-Wie heißt die oberste Ebene der Welt, über der Oberfläche in Terraria?
-Antwort: Weltraum
-Wie heißt die zweite Map von Among Us?
-Antwort: Mira HQ
-Was für ein Block in Minecraft wird oft gemined um XP zu erhalten? Nether…?
-Antwort: Quarz
-Wie wird Markus Alexej Persson noch genannt (Minecraft)
-Antwort: Notch
+In welchem Spiel muss der Spieler in einer pixeligen Welt Blöcke abbauen und bauen? Antwort: Minecraft (Quelle: Mojang Studios)
+Welche bekannte Figur aus Videospielen trägt eine rote Mütze mit einem „M“ darauf? Antwort: Mario (Quelle: Nintendo)
+Wie heißt die Spielereihe, in der man Pokémon fängt und trainiert? Antwort: Pokémon (Quelle: Game Freak)
+In welchem Spiel kämpft der Spieler gegen Aliens und kann dabei verschiedene futuristische Waffen einsetzen? Antwort: Halo (Quelle: Microsoft)
+Welches Battle Royale-Spiel ist weltweit besonders populär? Antwort: Fortnite (Quelle: Epic Games)
+Welches Spiel lässt den Spieler in einer offenen Welt Fahrzeuge steuern und Missionen erfüllen? Antwort: Grand Theft Auto (GTA) (Quelle: Rockstar Games)
+In welchem Spiel übernimmt man die Rolle eines Detektivs in einer Noir-Umgebung? Antwort: L.A. Noire (Quelle: Rockstar Games)
+Welches Strategiespiel lässt Spieler in der Antike um die Vorherrschaft kämpfen? Antwort: Age of Empires (Quelle: Microsoft)
+In welchem Spiel muss man durch Rätsel und Plattformen navigieren, um Prinzessinnen zu retten? Antwort: Super Mario Bros. (Quelle: Nintendo)
+Welches populäre E-Sport-Spiel ist ein MOBA (Multiplayer Online Battle Arena)? Antwort: League of Legends (Quelle: Riot Games)
 
-Kategorie: Kinderserien
-Lied 1
-Antwort: Ducktales
-Welcher Bild 2
-Antwort: kleiner roter Traktor
-Lied 3
-Antwort: PawPatrol
-Lied 4
-Antwort: Gummibärenbande
-Lied 5
-Antwort: Phineas und Ferb
-Welche Serie handelt von einem Feuerwehrmann in Pontypandy?
-Antwort: Feuerwehrmann Sam
-Welche Serie erzählt von den Abenteuern eines kleinen Mädchens und ihrem Freund, dem Bären?
-Antwort: Masha und der Bär
-Wie lautet der Titel der deutschen Fernsehserie, in der ein fiktives Unternehmen, benannt nach einer weihnachtlichen Ikone, im Mittelpunkt steht?
-Antwort: Weihnachtsmann und Co. KG
+Kategorie: Tiere raten
+Welches Tier ist das größte lebende Säugetier? Antwort: Blauwal (Quelle: National Geographic)
+Wie viele Beine hat eine Spinne? Antwort: 8 (Quelle: Zoologische Fachliteratur)
+Welches Tier ist bekannt für seine schwarz-weißen Fellflecken und lebt in China? Antwort: Großer Panda (Quelle: WWF)
+Welches Tier kann als das schnellste Landtier bezeichnet werden? Antwort: Gepard (Quelle: National Geographic)
+Welcher Vogel ist berühmt für seine Fähigkeit, den Kopf fast vollständig zu drehen? Antwort: Eule (Quelle: Ornithologische Studien)
+Welches Tier ist bekannt für seinen langen Hals und lebt in der afrikanischen Savanne? Antwort: Giraffe (Quelle: National Geographic)
+Welcher Meeresbewohner hat acht Arme? Antwort: Oktopus (Quelle: Zoologische Studien)
+Welches Insekt ist berühmt für die Honigproduktion? Antwort: Biene (Quelle: FAO)
+Welches Tier ist das größte Landraubtier der Welt? Antwort: Eisbär (Quelle: WWF)
+Welches Tier gilt als der „König der Tiere“? Antwort: Löwe (Quelle: National Geographic)
 
-Kategorie: Politiker
-Welches Wer war von 2005 bis 2021 Bundeskanzlerin der Bundesrepublik Deutschland?
-Antwort: Angela Merkel (CDU)
-Wer war der erste Bundeskanzler der Bundesrepublik Deutschland?
-Antwort: Konrad Adenauer (CDU)
-Welcher Bild 3
-Antwort: Nico Semsrott
-Bild 4
-Antwort: Philipp Amthor
-Wie heißt der französische Präsident, der 2017 erstmals gewählt wurde?
-Antwort: Emmanuel Macron (La République En Marche)
-Von welchem US-amerikanischen Präsidenten stammen die Worte "Ich bin ein Berliner"?
-Antwort: John F. Kennedy
-Bild 7
-Antwort: Gregor Gysi (Die Linke)
-Welcher deutsche Politiker vollführte 1970 in Warschau den symbolträchtigen Kniefall, um sich für die deutsche Vergangenheit zu verantworten?
-Antwort: Willy Brandt
-Wer ist der aktuelle Verteidigungsminister
-Antwort: Boris Pistorius (SPD)
 
-Kategorie: Feuerwehrhäuser
-Bild 1
-Antwort: Blender
-Bild 2
-Antwort: Bierden
-Bild 3
-Antwort: Walle
-Bild 4
-Antwort: Verden
-Bild 5
-Antwort: Fischerhude-Quelkhorn
-Bild 6
-Antwort: Thedinghausen
-Bild 7
-Antwort: Nedden
-Bild 8
-Antwort: Völkersen
-Bild 9
-Antwort: Dauelsen
+
+
+
+
+
