@@ -8,8 +8,8 @@ st.markdown(
     .fixed-ranking {
         position: fixed;
         top: 80px;
-        right: 20px;
-        width: 180px;
+        right: 10px;
+        width: 160px;
         background-color: #ff0e1117;
         padding: 10px;
         border: 1px solid #ddd;
