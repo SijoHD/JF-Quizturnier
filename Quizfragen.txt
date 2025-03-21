@@ -36,16 +36,32 @@ Bild 7
 Antwort: Niederlande
 
 Kategorie: Feuerwehr
-Welches Fahrzeug gehört zur Grundausstattung der Feuerwehr und dient hauptsächlich zum Löschen von Bränden? Antwort: Löschfahrzeug (LF) (Quelle: DIN-Normen der Feuerwehr)
-Welche Aufgabe hat eine Drehleiter im Feuerwehreinsatz? Antwort: Zugang zu Höhen ermöglichen und Personenrettung (Quelle: Feuerwehr-Ausbildungsbücher)
-Welche persönliche Schutzausrüstung trägt ein Feuerwehrmann? Antwort: Helm, Schutzkleidung, Handschuhe, Stiefel und Atemschutzgerät (Quelle: Feuerwehr-Leitfaden)
-Wie nennt man den Feuerwehrmann, der speziell für den Umgang mit Gefahrstoffen ausgebildet ist? Antwort: Gefahrgutbeauftragter (Quelle: Feuerwehr-Ausbildung)
-Was versteht man unter „Brandbekämpfung“? Antwort: Das Löschen von Feuer zur Rettung von Leben und Sachwerten (Quelle: Feuerwehr-Grundausbildung)
-Wie nennt man den standardisierten Alarmierungsdienst der Feuerwehr? Antwort: Alarmierungsplan (Quelle: Feuerwehr-Dokumente)
-Welcher Feuerwehreinsatz nutzt Wasserwerfer, um Feuer mit Hochdruckwasser zu bekämpfen? Antwort: Hochdruck-Brandeinsätze (Quelle: Feuerwehrtechnik)
-Welche Schutzausrüstung ist besonders wichtig beim Einsatz in verrauchten Räumen? Antwort: Atemschutzgerät (Quelle: Feuerwehr-Richtlinien)
-Wie nennt man den Einsatz zur technischen Rettung aus großer Höhe? Antwort: Höhenrettung (Quelle: Feuerwehr-Ausbildung)
-Welches Gerät verwendet die Feuerwehr, um in verrauchten oder dunklen Bereichen Personen zu orten? Antwort: Wärmebildkamera (Quelle: Feuerwehr-Technik)
+Nach welchem Gesetz ist der Brandschutz in Niedersachsen geregelt?
+Antwort: Niedersächsisches Brandschutzgesetz
+Wie bezeichnet man die kleinste taktische Einheit?
+Antwort: Trupp
+Welche Hauptlöschwirkung hat Wasser?
+Antwort: Kühlen
+Welche Arten von Feuerlöschschläuchen gibt es?
+Antwort: Druckschläuche und Saugschläuche
+Wozu dienen Kupplungen?
+Antwort: zum verbinden von Schläuchen und Armaturen
+Wie ist eine Löschgruppe gegliedert?
+Antwort: Gruppenführer/in, Maschinist/in, Melder/in, Angriffstrupp, Wassertrupp, Schlauchtrupp
+
+Kategorie: Feuerwehr Abkürzungen
+Wofür steht die Abkürzung TSF-W?
+Antwort: Tragkraftspritzen Fahrzeug Wasser
+Wofür steht die Abkürzung PFP-N?
+Antwort: Portable Firepump Normal Pressure
+Wofür steht die Abkürzung ELW?
+Antwort: Einsatzleitwagen
+Wofür steht die Abkürzung KdoW?
+Antwort: Kommandowagen
+Wofür steht die Abkürzung MLF?
+Antwort: Mittleres Löschfahrzeug
+Wofür steht die Abkürzung BMZ? 
+Antwort: Brandmeldezentrale
 
 Kategorie: Hauptstädte
 Was ist die Hauptstadt von Argentinien? 
@@ -68,7 +84,7 @@ Was ist die Hauptstadt von Indien?
 Antwort: Neu-Delhi (Quelle: Indische Regierung)
 Was ist die Hauptstadt von Russland? 
 Antwort: Moskau (Quelle: Russisches Außenministerium)
-
+ 
 Kategorie: Filme erraten
 Aus welchem Film stammt das Zitat „Ich bin der König der Welt!”?
 Antwort: Titanic
