@@ -7,7 +7,7 @@ st.markdown(
     <style>
     .fixed-ranking {
         position: fixed;
-        top: 600px;
+        top: 500px;
         right: 10px;
         width: 160px;
         background-color: #ff0e1117;
